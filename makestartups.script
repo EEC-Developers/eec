@@ -1,0 +1,21 @@
+.KEY arg
+
+set ec eec.020
+set dir e:modules/eec/
+set opts QUIET SHOWFNAME
+
+delete ${dir}#?.m
+
+$ec targetx.e ddir $dir define "_AMIGAOS;<arg>" $opts
+$ec targetx.e ddir $dir define "_MORPHOS;<arg>" $opts
+$ec targetx.e ddir $dir define "_AMIGAOS4;<arg>" $opts
+
+$ec startup_amigaos.e ddir $dir define "<arg>" $opts
+$ec startup_amigaos.e ddir $dir define "MINSTARTUP;<arg>" $opts
+$ec startup_morphos.e ddir $dir define "<arg>" $opts
+$ec startup_morphos.e ddir $dir define "MINSTARTUP;<arg>" $opts
+$ec startup_amigaos4.e ddir $dir define "<arg>" $opts
+$ec startup_amigaos4.e ddir $dir define "MINSTARTUP;<arg>" $opts
+
+$ec multilibraryX.e ddir $dir define "CODE_AMIGAOS;<arg>" $opts
+$ec multilibraryX.e ddir $dir define "CODE_MORPHOS;<arg>" $opts

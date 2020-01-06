@@ -1,0 +1,71 @@
+
+SET EECNAME EEC-1_0
+
+IF EXISTS RAM:$EECNAME
+   DELETE RAM:$EECNAME ALL
+ENDIF
+
+IF EXISTS RAM:$EECNAME.lha
+   DELETE RAM:$EECNAME.lha
+ENDIF
+
+MAKEDIR RAM:$EECNAME
+
+CD RAM:$EECNAME
+MAKEDIR docs
+MAKEDIR bin
+MAKEDIR modules
+MAKEDIR tools
+MAKEDIR source
+COPY EEC:eec.readme eec.readme
+
+CD RAM:$EECNAME/BIN
+COPY EEC:eec.020 EEC.020
+COPY EEC:EEC.mos EEC.mos
+COPY EEC:EEC.os4 EEC.os4
+COPY EEC:diself DisELF
+COPY EEC:viewmodule ViewModule
+COPY EEC:emptycache EmptyCache
+COPY EEC:viewcache ViewCache
+COPY EEC:modulefromfd ModuleFromFD
+COPY EEC:modulefromproto ModuleFromProto
+COPY EEC:modulefromproto.readme ModuleFromProto.readme
+COPY EEC:trackhit TrackHit
+COPY EEC:dishunk DisHunk
+COPY EEC:ceemodule CeeModule
+COPY EEC:makelibmod MakeLibMod
+
+CD RAM:$EECNAME/DOCS
+COPY EEC:EEC.guide EEC.guide
+
+CD RAM:$EECNAME/MODULES
+COPY EEC:modules/#? "" all
+DELETE #?.~(m) #?/#?.~(m) #?/#?/#?.~(m) #?/#?/#?/#?.~(m)
+DELETE amigaos4/makelibmods.script
+DELETE morphos/makelibmods.script
+
+CD RAM:$EECNAME/SOURCE
+MAKEDIR modules
+COPY EEC:modules/#? modules/ all
+DELETE modules/~(#?.e) modules/#?/~(#?.e) modules/#?/#?/~(#?.e) modules/#?/#?/#?/~(#?.e)
+
+COPY EEC:Source/#? "" all
+DELETE #?.m #?/#?.m #?/#?/#?.m #?/#?/#?/#?.m
+DELETE ~(#?.#?) #?/~(#?.#?) #?/#?/~(#?.#?) #?/#?/#?/~(#?.#?)
+
+CD RAM:
+LHA a -r $EECNAME.lha $EECNAME
+COPY $EECNAME.lha media:upload/$EECNAME.lha
+COPY EEC:EEC.readme media:upload/$EECNAME.readme
+
+DELETE $EECNAME ALL
+
+ECHO $EECNAME.lha DONE
+
+UNSET EECNAME
+
+
+
+
+
+

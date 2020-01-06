@@ -1,0 +1,112 @@
+
+   SET EECNAME EEC-1.0.0
+   SET EDIR EEC:
+   
+   SET DSTDIR media:upload
+
+   SET SRCDIR ${EECNAME}-src
+
+   SET ARCH ${SRCDIR}.lha
+
+   SET README ${SRCDIR}.readme
+
+   CD RAM:
+
+   IF EXISTS $SRCDIR
+      DELETE $SRCDIR ALL
+   ENDIF
+
+   IF EXISTS $ARCH.lha
+      DELETE $ARCH.lha
+   ENDIF
+
+   MAKEDIR $SRCDIR
+
+   ; COMPILER (ECX LICENSE, ZLIB, OTHER)
+
+   COPY ${EDIR}eecmain.e $SRCDIR/ ; ECX LICENSE
+   COPY ${EDIR}compiler.e $SRCDIR/ ; ECX LICENSE
+   COPY ${EDIR}codegen.e $SRCDIR/  ; ECX LICENSE   
+   COPY ${EDIR}assembler.e $SRCDIR/  ; ECX LICENSE
+   COPY ${EDIR}common.e $SRCDIR/   ; ECX LICENSE
+   COPY ${EDIR}support.e $SRCDIR/  ; ECX LICENSE
+   COPY ${EDIR}inline68.e $SRCDIR/   ; ECX LICENSE
+   COPY ${EDIR}inlineppc.e $SRCDIR/  ; ECX LICENSE
+   COPY ${EDIR}ecmodtrans.e $SRCDIR/  ; ECX LICENSE
+   COPY ${EDIR}m68gen.e $SRCDIR/  ; ECX LICENSE
+   COPY ${EDIR}ppcgen.e $SRCDIR/  ; ECX LICENSE
+   COPY ${EDIR}libstubs.e $SRCDIR/  ; ECX LICENSE
+   COPY ${EDIR}runtime.e $SRCDIR/  ; ECX LICENSE
+   
+   COPY ${EDIR}opcodes68.e $SRCDIR/  ; ZLIB LICENSE
+   COPY ${EDIR}opcodesppc.e $SRCDIR/  ; ZLIB LICENSE
+   
+   COPY ${EDIR}eecelf.e $SRCDIR/   ; OWN LICENSE
+   COPY ${EDIR}binary.e $SRCDIR/   ; OWN LICENSE
+
+   ; STARTUPS AND INTERNAL FUNCS (ZLIB/LIBPNG LICENSE)
+
+   COPY ${EDIR}startup_morphos.e $SRCDIR/
+   COPY ${EDIR}startup_amigaos.e $SRCDIR/
+   COPY ${EDIR}startup_amigaos4.e $SRCDIR/
+   COPY ${EDIR}multilibraryX.e $SRCDIR/
+   COPY ${EDIR}ppcifuncs.asm $SRCDIR/
+   COPY ${EDIR}ec68kifuncs.asm $SRCDIR/
+
+   ; MISC (ZLIB/LIBPNG LICENSE)
+
+   COPY ${EDIR}ppcdisasm.e $SRCDIR/
+
+   ; TOOLS (ECX TOOLS LICENSE)
+
+   COPY ${EDIR}emptycache.e $SRCDIR/
+   COPY ${EDIR}viewcache.e $SRCDIR/
+   COPY ${EDIR}viewmodule.e $SRCDIR/
+   COPY ${EDIR}dumpmod.e $SRCDIR/
+   COPY ${EDIR}diself.e $SRCDIR/
+   COPY ${EDIR}dishunk.e $SRCDIR/
+   COPY ${EDIR}trackhit.e $SRCDIR/
+   ;COPY ${EDIR}catchhit.e $SRCDIR/
+   COPY ${EDIR}modulefromfd.e $SRCDIR/
+   COPY ${EDIR}modulefromproto.e $SRCDIR/
+   COPY ${EDIR}ceemodule.e $SRCDIR/
+   COPY ${EDIR}makelibmod.e $SRCDIR/
+
+   ; LICENSE TEXTS
+
+   COPY ${EDIR}CompilerLicense.md $SRCDIR/
+   COPY ${EDIR}ToolLicense.md $SRCDIR/
+
+   ; README
+
+   COPY ${EDIR}eecsrc.readme $SRCDIR/$README
+
+   ; SCRIPTS
+   
+   COPY ${EDIR}makesrcdist.script $SRCDIR/
+   COPY ${EDIR}makedist.script $SRCDIR/
+   COPY ${EDIR}makestartups.script $SRCDIR/
+   COPY ${EDIR}makeeec.script $SRCDIR/
+
+   ; MAKE ARCHIVE
+
+   LHA a -r $ARCH $SRCDIR/#?.#?
+
+   COPY $ARCH $DSTDIR/
+   COPY ${EDIR}EECsrc.readme $DSTDIR/$README
+
+   ; DELETE FILES
+
+   DELETE $SRCDIR ALL
+   DELETE $ARCH
+
+   UNSET DSTDIR
+   UNSET SRCDIR
+   UNSET EDIR
+   UNSET EECNAME
+   UNSET ARCH
+   UNSET README
+
+   ECHO ALL DONE
+
+   

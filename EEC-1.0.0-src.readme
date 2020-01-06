@@ -1,0 +1,81 @@
+short: EEC source code
+uploader: samuraileumas yahoo com
+author: Samuel D. Crow and Leif Salomonsson
+type: dev/e
+version: 1.0.0
+architecture: generic
+
+   This is the source code of Enhanced E Compiler.
+
+   EEC is an E Compiler derived from ECX, it supports 68020+FPU and
+   PowerPC cpus, AmigaOS 3.1 and MorphOS operating systems.
+
+   Experimental support for AmigaOS 4 is also included.
+
+   The main compiler sources comes under this license:
+
+
+/*********** THE ECX COMPILER LICENSE *******************************
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+o Redistributions must not be of commercial nature and must be free of charge.
+
+o Copyright notices and this LICENSE may not be altered or removed from any
+  source code.
+
+o Redistributions in binary form must reproduce all copyright notices and
+  this LICENSE in the documentation and/or other materials provided with
+  the distribution.
+
+o Redistributions of modified source code should not be misrepresented
+  as the original and must clearly show who has modified it.
+
+o Redistributions of modified binaries should not be misrepresented as the
+  original and must use a different program name and a different archive name.
+
+o Redistributions of modified binaries must in the documentation and/or other
+  materials provided with the distribution, provide a brief explanation about
+  how your work is based on this work.
+
+This software is provided 'as-is', without any express or implied warranty.
+In no event will the author(s) be held liable for any damages arising from
+the use of this software. Use at your own risk.
+
+************ END OF ECX COMPILER LICENSE ***************************/
+
+
+   Parts of the compiler comes under simpler licenses with less conditions.
+
+   The startup/library codes and internal functions comes under zlib/libpng
+   license.
+
+   The support tools comes under the ECX TOOLS LICENSE,
+   see ToolLicense.md
+
+   Each source describes what license it uses.
+
+   The compiler is written in E,
+   Startup/library codes are written in E,
+   internal functions are written in 68k assembler + ppc assembler,
+   Support tools are written in E.
+
+   To build the compiler you will need: 
+   
+   1. 
+      A special version of EC (called testec, see separate archive),
+      to build the 68k version of ECX.
+      
+   2.
+      AsmOne or similar to assemble the 68k internal functions into amiga link object.
+   
+   3.
+      PAsm or similar to assemble the ppc internal functions into amiga link object.
+      
+   4. 
+      ECX(!) to compile startup/library code modules.
+
+
+Leif Salomonsson [dev blubbedev net] Sept 2013
+
