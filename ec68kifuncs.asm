@@ -38,52 +38,52 @@
 
 ; do not change order of functions !
 
- DC.L I_WRITEF, I_MUL, I_DIV, I_OPENW, I_OPENS
- DC.L I_MOUSE, I_PLOT, I_LINE, I_TEXTF, I_COLOR
+ DC.L I_WRITEF,I_MUL,I_DIV,I_OPENW,I_OPENS
+ DC.L I_MOUSE,I_PLOT,I_LINE,I_TEXTF,I_COLOR
  ; 10
- DC.L I_SETRAST, I_SETOUT, I_LONG, I_INT, I_CHAR
- DC.L I_PUTLONG, I_PUTINT, I_PUTCHAR, I_NEW, I_EXIT
+ DC.L I_SETRAST,I_SETOUT,I_LONG,I_INT,I_CHAR
+ DC.L I_PUTLONG,I_PUTINT,I_PUTCHAR,I_NEW,I_EXIT
  ; 20
- DC.L I_CLOSEW, I_CLOSES, I_AND, I_OR, I_NOT
- DC.L I_BOOLGAD, I_SETTOPAZ, I_STRCMP, I_STRCOPY, I_STRADD
+ DC.L I_CLOSEW,I_CLOSES,I_AND,I_OR,I_NOT
+ DC.L I_BOOLGAD,I_SETTOPAZ,I_STRCMP,I_STRCOPY,I_STRADD
  ; 30
- DC.L I_STRLEN, I_ESTRLEN, I_ESTRMAX, I_STRING_OLD, I_RIGHTSTR
- DC.L I_MIDSTR, I_STRINGF, I_VAL, I_INSTR, I_TRIMSTR
+ DC.L I_STRLEN,I_ESTRLEN,I_ESTRMAX,I_STRING_OLD,I_RIGHTSTR
+ DC.L I_MIDSTR,I_STRINGF,I_VAL,I_INSTR,I_TRIMSTR
  ; 40
- DC.L I_UPPERSTR, I_LOWERSTR, I_READSTR, I_OUT, I_INP
- DC.L I_VERSION, I_FILELENGTH, I_MOUSEX, I_MOUSEY, I_FREESTACK
+ DC.L I_UPPERSTR,I_LOWERSTR,I_READSTR,I_OUT,I_INP
+ DC.L I_VERSION,I_FILELENGTH,I_MOUSEX,I_MOUSEY,I_FREESTACK
  ; 50
- DC.L I_CTRLC, I_LIST_OLD, I_LISTCOPY, I_LISTADD, I_LISTCMP
- DC.L I_LISTLEN, I_LISTMAX, I_EVEN, I_ODD, I_EVAL
+ DC.L I_CTRLC,I_LIST_OLD,I_LISTCOPY,I_LISTADD,I_LISTCMP
+ DC.L I_LISTLEN,I_LISTMAX,I_EVEN,I_ODD,I_EVAL
  ; 60
- DC.L I_FORALL, I_EXISTS, I_MAPLIST, I_ABS, I_SHL
- DC.L I_SHR, I_BOX, I_DISP, I_DISPL_OLD, I_LINK
+ DC.L I_FORALL,I_EXISTS,I_MAPLIST,I_ABS,I_SHL
+ DC.L I_SHR,I_BOX,I_DISP,I_DISPL_OLD,I_LINK
  ; 70
- DC.L I_NEXT, I_FORWARD, I_SETSTR, I_SETLIST, I_WAITMSG
- DC.L I_MSGCODE, I_MSGQUAL, I_MSGIADR, I_RND, I_RNDQ
+ DC.L I_NEXT,I_FORWARD,I_SETSTR,I_SETLIST,I_WAITMSG
+ DC.L I_MSGCODE,I_MSGQUAL,I_MSGIADR,I_RND,I_RNDQ
  ; 80
- DC.L I_MOD, I_EOR, I_CAUSE, I_LISTITEM, I_NEWR
- DC.L I_SIGN, I_PRINTF, I_WAITLEFTMOUSE, I_LEFTMOUSE, I_SETIN
+ DC.L I_MOD,I_EOR,I_CAUSE,I_LISTITEM,I_NEWR
+ DC.L I_SIGN,I_PRINTF,I_WAITLEFTMOUSE,I_LEFTMOUSE,I_SETIN
  ; 90
- DC.L I_THROW, I_RETHROW, I_SELECTLIST, I_SETCOLOUR, I_NEWM
- DC.L I_BOUNDS, I_REALF, I_REALVAL, I_FABS, I_FFLOOR
+ DC.L I_THROW,I_RETHROW,I_SELECTLIST,I_SETCOLOUR,I_NEWM
+ DC.L I_BOUNDS,I_REALF,I_REALVAL,I_FABS,I_FFLOOR
  ; 100
- DC.L I_FCEIL, I_FSIN, I_FCOS, I_FTAN, I_FEXP
- DC.L I_FLOG, I_FPOW, I_FSQRT, I_FLOG10, I_FASTDISPOSE
+ DC.L I_FCEIL,I_FSIN,I_FCOS,I_FTAN,I_FEXP
+ DC.L I_FLOG,I_FPOW,I_FSQRT,I_FLOG10,I_FASTDISPOSE
  ; 110
- DC.L I_FASTNEW, I_MIN, I_MAX, I_OSTRCMP, I_ASTRCOPY
- DC.L I_CELL, I_FREECELLS, I_SETCHUNKSIZE, I_CAR, I_CDR
+ DC.L I_FASTNEW,I_MIN,I_MAX,I_OSTRCMP,I_ASTRCOPY
+ DC.L I_CELL,I_FREECELLS,I_SETCHUNKSIZE,I_CAR,I_CDR
  ; 120
- DC.L I_CONS, I_FASTDISPOSELIST, I_FATAN, I_FSINCOS, I_FSINH
- DC.L I_FCOSH, I_FTANH, I_FTIEEE, I_FFIEEE, I_FASIN
+ DC.L I_CONS,I_FASTDISPOSELIST,I_FATAN,I_FSINCOS,I_FSINH
+ DC.L I_FCOSH,I_FTANH,I_FTIEEE,I_FFIEEE,I_FASIN
  ; 130
- DC.L I_FACOS, I_OBJNAME, I_OBJSIZE, I_DEBUGF, I_DOUBLE
- DC.L I_PUTDOUBLE, I_PTR, I_PUTPTR, I_BYTE, I_PUTBYTE
+ DC.L I_FACOS,I_OBJNAME,I_OBJSIZE,I_DEBUGF,I_DOUBLE
+ DC.L I_PUTDOUBLE,I_PTR,I_PUTPTR,I_BYTE,I_PUTBYTE
  ; 140
- DC.L I_WORD, I_PUTWORD, I_FLOAT, I_PUTFLOAT, I_REAL
- DC.L I_PUTREAL, I_NEWLIST, I_STRING, I_LIST, I_DISPL
+ DC.L I_WORD,I_PUTWORD,I_FLOAT,I_PUTFLOAT,I_REAL
+ DC.L I_PUTREAL,I_NEWLIST,I_STRING,I_LIST,I_DISPL
  ; 150
- DC.L I_WIDE, I_PUTWIDE, I_ULONGTOWIDE, I_CODEEND
+ DC.L I_WIDE,I_PUTWIDE,I_ULONGTOWIDE,I_CODEEND
 
 
 GLOBOFF     = -512
@@ -137,15 +137,15 @@ FMEMSIZE    = 4096
    EVEN
 
       I_MUL:  ; 020 version by LS
-   MOVE.L 8(A7), D0
-   MOVE.L 4(A7), D1
-   MULS.L D1, D0
+   MOVE.L 8(A7),D0
+   MOVE.L 4(A7),D1
+   MULS.L D1,D0
    RTS
 
       I_DIV: ; 020 version by LS
-   MOVE.L 8(A7), D0
-   MOVE.L 4(A7), D1
-   DIVS.L D1, D0
+   MOVE.L 8(A7),D0
+   MOVE.L 4(A7),D1
+   DIVS.L D1,D0
    RTS
 
 
@@ -308,7 +308,7 @@ FMEMSIZE    = 4096
    MOVE.L   4(A7),A0
    ;MOVEQ   #0,D0
    MOVE.W   (A0),D0
-   EXT.L    D0 ; EC does no signextend, but we do (v49)!
+   EXT.L    D0 ; EC does no signextend,but we do (v49)!
    RTS
 
       I_CHAR:
@@ -517,9 +517,9 @@ FMEMSIZE    = 4096
 .4:
    RTS
 .5: ; 0 len fix by LS
-   MOVE.W D0, -2(A2)
-   MOVE.B D0, (A2)
-   MOVE.L A2, D0
+   MOVE.W D0,-2(A2)
+   MOVE.B D0,(A2)
+   MOVE.L A2,D0
    RTS
 
       I_STRADD:
@@ -576,23 +576,23 @@ FMEMSIZE    = 4096
    RTS
 
       I_STRING_OLD:
-   MOVE.L 4(A7), D0
-   ADD.L #16, D0
-   ANDI.L #$FFFC, D0
-   MOVE.L D0, -(A7)
-   MOVE.L -120(A4), A0 ; mempool
-   MOVE.L 4.W, A6
+   MOVE.L 4(A7),D0
+   ADD.L #16,D0
+   ANDI.L #$FFFC,D0
+   MOVE.L D0,-(A7)
+   MOVE.L -120(A4),A0 ; mempool
+   MOVE.L 4.W,A6
    JSR -708(A6)
-   MOVE.L (A7)+, D1
+   MOVE.L (A7)+,D1
    TST.L D0
    BEQ .3
-   MOVE.L D0, A0
-   MOVE.L D1, (A0)+
+   MOVE.L D0,A0
+   MOVE.L D1,(A0)+
    CLR.L (A0)+ ; memory is NOT cleared!
-   MOVE.L 4(A7), D1
+   MOVE.L 4(A7),D1
    SWAP D1
-   MOVE.L D1, (A0)+
-   MOVE.L A0, D0
+   MOVE.L D1,(A0)+
+   MOVE.L A0,D0
 .3:
    RTS
 
@@ -1034,23 +1034,23 @@ BIN:   ADDQ.L   #1,A2
    RTS
 
       I_LIST_OLD:
-   MOVE.L 4(A7), D0
-   LSL.L #2, D0
-   ADD.L #12, D0
-   MOVE.L D0, -(A7)
-   MOVE.L -120(A4), A0  ; mempool
-   MOVE.L 4.W, A6
+   MOVE.L 4(A7),D0
+   LSL.L #2,D0
+   ADD.L #12,D0
+   MOVE.L D0,-(A7)
+   MOVE.L -120(A4),A0  ; mempool
+   MOVE.L 4.W,A6
    JSR -708(A6)
-   MOVE.L (A7)+, D1
+   MOVE.L (A7)+,D1
    TST.L D0
    BEQ .3
-   MOVE.L D0, A0
-   MOVE.L D1, (A0)+
+   MOVE.L D0,A0
+   MOVE.L D1,(A0)+
    CLR.L (A0)+ ; memory is NOT cleared!
-   MOVE.L 4(A7), D1
+   MOVE.L 4(A7),D1
    SWAP D1
-   MOVE.L D1, (A0)+
-   MOVE.L A0, D0
+   MOVE.L D1,(A0)+
+   MOVE.L A0,D0
 .3:
    RTS
 
@@ -1273,15 +1273,15 @@ BIN:   ADDQ.L   #1,A2
 .1:   RTS
 
       I_DISPL_OLD:
-   MOVE.L 4(A7), A3
+   MOVE.L 4(A7),A3
 .3:
-   MOVE.L A3, D0
+   MOVE.L A3,D0
    BEQ .4
-   LEA -12(A3), A1
-   MOVE.L -8(A3), A3
-   MOVE.L -120(A4), A0
-   MOVE.L (A1), D0
-   MOVE.L 4.W, A6
+   LEA -12(A3),A1
+   MOVE.L -8(A3),A3
+   MOVE.L -120(A4),A0
+   MOVE.L (A1),D0
+   MOVE.L 4.W,A6
    JSR -714(A6)
    BRA .3
 .4:
@@ -1413,9 +1413,9 @@ BIN:   ADDQ.L   #1,A2
    ;EXT.L   D1
 
    ; 020 version by LS
-   MOVE.L 8(A7), D1
-   MOVE.L 4(A7), D0
-   DIVSL.L D0, D0:D1
+   MOVE.L 8(A7),D1
+   MOVE.L 4(A7),D0
+   DIVSL.L D0,D0:D1
    RTS
 
       I_EOR:
@@ -1440,7 +1440,7 @@ BIN:   ADDQ.L   #1,A2
 .1:   MOVE.L   -24(A4),A0      ; PERFORM CLEANUP(0)
    JMP   (A0)
 
-      I_LISTITEM:         ; SIMPLE, BUT EFFECTIVE !
+      I_LISTITEM:         ; SIMPLE,BUT EFFECTIVE !
    MOVE.L   4(A7),D0
    LSL.L   #2,D0
    MOVE.L   8(A7),A0
@@ -2089,7 +2089,7 @@ BIN:   ADDQ.L   #1,A2
 ;
 ; speed of nrev500_10 test on 128k space (includes 1 collection):
 ;
-; 4.5 x BinProLog, 15.5 x SBP, 26 x Gofer
+; 4.5 x BinProLog, 15.5 x SBP,26 x Gofer
 ;
 ; TODO:
 ; + stack checking?
@@ -2419,15 +2419,15 @@ CHUNK      = 128*1024      ; must be multiple of 256, >1024
    ; new ECX internal functions v48
 
       I_OBJNAME:
-   MOVE.L 4(A7), A0
-   MOVE.L -(A0), A0
-   MOVE.L -8(A0), D0
+   MOVE.L 4(A7),A0
+   MOVE.L -(A0),A0
+   MOVE.L -8(A0),D0
    RTS
 
       I_OBJSIZE:
-   MOVE.L 4(A7), A0
-   MOVE.L -(A0), A0
-   MOVE.L -(A0), D0
+   MOVE.L 4(A7),A0
+   MOVE.L -(A0),A0
+   MOVE.L -(A0),D0
    RTS
 
    ; v49
@@ -2441,20 +2441,20 @@ CHUNK      = 128*1024      ; must be multiple of 256, >1024
    JSR     -522(A6)
    RTS
 .1:
-   MOVE.L 4.W, A6
+   MOVE.L 4.W,A6
    JSR -516(A6) ; RawPutChar
    RTS
 
    ; v50
 
    I_DOUBLE: ; (adr) = fp1
-   MOVE.L 4(A7), A0
-   FMOVE.D (A0), FP1
+   MOVE.L 4(A7),A0
+   FMOVE.D (A0),FP1
    RTS
 
-   I_PUTDOUBLE: ; (adr, fp1) = adr
-   MOVE.L 4(A7), A0
-   FMOVE.D FP1, (A0)
+   I_PUTDOUBLE: ; (adr,fp1) = adr
+   MOVE.L 4(A7),A0
+   FMOVE.D FP1,(A0)
    RTS
 
    I_PTR:
@@ -2490,128 +2490,128 @@ CHUNK      = 128*1024      ; must be multiple of 256, >1024
    RTS
 
    I_FLOAT: ; (adr) = fp1
-   MOVE.L 4(A7), A0
-   FMOVE.S (A0), FP1
+   MOVE.L 4(A7),A0
+   FMOVE.S (A0),FP1
    RTS
 
-   I_PUTFLOAT: ; (adr, fp1) = adr
-   MOVE.L 4(A7), A0
-   FMOVE.S FP1, (A0)
+   I_PUTFLOAT: ; (adr,fp1) = adr
+   MOVE.L 4(A7),A0
+   FMOVE.S FP1,(A0)
    RTS
 
    ; v51
 
    I_REAL: ; (adr) = fp1
-   MOVE.L 4(A7), A0
-   FMOVE.D (A0), FP1
+   MOVE.L 4(A7),A0
+   FMOVE.D (A0),FP1
    RTS
 
-   I_PUTREAL: ; (adr, fp1) = adr
-   MOVE.L 4(A7), A0
-   FMOVE.D FP1, (A0)
+   I_PUTREAL: ; (adr,fp1) = adr
+   MOVE.L 4(A7),A0
+   FMOVE.D FP1,(A0)
    RTS
 
    ; v56
 
    I_NEWLIST: ; (list)
-   MOVE.L 4(A7), D0
-   MOVE.L D0, A0
-   ADDQ.L #4, D0
-   MOVE.L D0, (A0)  ; list.head := list+4
+   MOVE.L 4(A7),D0
+   MOVE.L D0,A0
+   ADDQ.L #4,D0
+   MOVE.L D0,(A0)  ; list.head := list+4
    CLR.L 4(A0)      ; list.tail := NIL
-   MOVE.L A0, 8(A0) ; list.tailpred := list
+   MOVE.L A0,8(A0) ; list.tailpred := list
    RTS
 
    I_STRING: ; new version that takes mempool as optional arg
-   MOVE.L 4(A7), D0
+   MOVE.L 4(A7),D0
    BNE .2
-   MOVE.L -120(a4), D0 ;mempool
+   MOVE.L -120(a4),D0 ;mempool
 .2:
-   MOVE.L D0, A0
-   MOVE.L 8(A7), D0
-   ADD.L #16, D0
-   ANDI.L #$FFFC, D0
-   MOVE.L D0, -(A7)
-   MOVE.L 4.W, A6
+   MOVE.L D0,A0
+   MOVE.L 8(A7),D0
+   ADD.L #16,D0
+   ANDI.L #$FFFC,D0
+   MOVE.L D0,-(A7)
+   MOVE.L 4.W,A6
    JSR -708(A6)
-   MOVE.L (A7)+, D1
+   MOVE.L (A7)+,D1
    TST.L D0
    BEQ .3
-   MOVE.L D0, A0
-   MOVE.L D1, (A0)+
+   MOVE.L D0,A0
+   MOVE.L D1,(A0)+
    CLR.L (A0)+ ; memory is NOT cleared!
-   MOVE.L 8(A7), D1
+   MOVE.L 8(A7),D1
    SWAP D1
-   MOVE.L D1, (A0)+
-   MOVE.L A0, D0
+   MOVE.L D1,(A0)+
+   MOVE.L A0,D0
 .3:
    RTS
 
    I_LIST:            ; new version that takes mempool as optional arg
-   MOVE.L 4(A7), A0
-   MOVE.L A0, D0
+   MOVE.L 4(A7),A0
+   MOVE.L A0,D0
    BNE .2
-   MOVE.L -120(A4), A0  ; mempool
+   MOVE.L -120(A4),A0  ; mempool
 .2:
-   MOVE.L 8(A7), D0
-   LSL.L #2, D0
-   ADD.L #12, D0
-   MOVE.L D0, -(A7)
-   MOVE.L 4.W, A6
+   MOVE.L 8(A7),D0
+   LSL.L #2,D0
+   ADD.L #12,D0
+   MOVE.L D0,-(A7)
+   MOVE.L 4.W,A6
    JSR -708(A6)
-   MOVE.L (A7)+, D1
+   MOVE.L (A7)+,D1
    TST.L D0
    BEQ .3
-   MOVE.L D0, A0
-   MOVE.L D1, (A0)+
+   MOVE.L D0,A0
+   MOVE.L D1,(A0)+
    CLR.L (A0)+ ; memory is NOT cleared!
-   MOVE.L 8(A7), D1
+   MOVE.L 8(A7),D1
    SWAP D1
-   MOVE.L D1, (A0)+
-   MOVE.L A0, D0
+   MOVE.L D1,(A0)+
+   MOVE.L A0,D0
 .3:
    RTS
 
 
    I_DISPL:           ; new version that takes mempool as optional arg
-   MOVE.L 8(A7), A3
+   MOVE.L 8(A7),A3
 .3:
-   MOVE.L A3, D0
+   MOVE.L A3,D0
    BEQ .4
-   LEA -12(A3), A1
-   MOVE.L -8(A3), A3
-   MOVE.L 4(A7), A0
-   MOVE.L A0, D0
+   LEA -12(A3),A1
+   MOVE.L -8(A3),A3
+   MOVE.L 4(A7),A0
+   MOVE.L A0,D0
    BNE .2
-   MOVE.L -120(A4), A0
+   MOVE.L -120(A4),A0
 .2:
-   MOVE.L (A1), D0
-   MOVE.L 4.W, A6
+   MOVE.L (A1),D0
+   MOVE.L 4.W,A6
    JSR -714(A6)
    BRA .3
 .4:
    RTS
 
-   ; v58, 20101212
+   ; v58,20101212
 
 I_WIDE: ; (adr) = fp1
-   MOVE.L 4(A7), A0
-   FMOVE.D (A0), FP1
+   MOVE.L 4(A7),A0
+   FMOVE.D (A0),FP1
    RTS
 
-I_PUTWIDE: ; (adr, wide) = adr
-   MOVE.L 12(A7), A0
-   FMOVE.D 4(A7), FP1
-   FMOVE.D FP1, (A0)
-   MOVE.L A0, D0
+I_PUTWIDE: ; (adr,wide) = adr
+   MOVE.L 12(A7),A0
+   FMOVE.D 4(A7),FP1
+   FMOVE.D FP1,(A0)
+   MOVE.L A0,D0
    RTS
 
 I_ULONGTOWIDE: ;
-   MOVE.L 4(A7), D0
-   MOVE.L D0, -4(A7)
+   MOVE.L 4(A7),D0
+   MOVE.L D0,-4(A7)
    CLR.L D0
-   MOVE.L D0, -8(A7)
-   FMOVE.D -8(A7), FP1
+   MOVE.L D0,-8(A7)
+   FMOVE.D -8(A7),FP1
    RTS
 
 
