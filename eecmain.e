@@ -1,7 +1,7 @@
 OPT PREPROCESS
 
 #ifndef STACKSIZE
-	#define STACKSIZE 200000
+	#define STACKSIZE 262144
 #endif
 
 OPT STACK=STACKSIZE
@@ -95,7 +95,7 @@ MODULE 'dos/var' -> 1.10.0
 
 MODULE '*binary'
 MODULE '*compiler'
-MODULE '*ecxelf'
+MODULE '*eecelf'
 MODULE '*runtime' -> 1.5.6
 MODULE '*support' -> 1.6.1
 MODULE '*codegen' -> 1.8.0 (v53)
@@ -105,7 +105,7 @@ MODULE '*assembler' -> 1.10.0 (v55)
 MODULE '*inline68'    -> 1.10.0 (v55)
 MODULE '*inlineppc'    -> 1.10.0 (v55)
 MODULE '*ppcgen'    -> 1.10.0 (v55)
-MODULE '*m68gen'    -> 1.10.0 (v55)
+MODULE '*020gen'    -> 1.10.0 (v55)
 MODULE '*ecmodtrans' -> 1.10.0 (v55)
 MODULE '*libstubs' -> 2.2 v57
 
@@ -2416,16 +2416,16 @@ ENDPROC
 
 -> v44
 ifuncs68data:
-	INCBIN 'ECX:ec68kifuncs.o'
+	INCBIN 'ec68kifuncs.o'
 	LONG NIL
 
 ifuncsmosdata:
-	INCBIN 'ECX:ppcifuncs.o'
+	INCBIN 'ppcifuncs.o'
 	LONG NIL
 
 
 ifuncsos4data:
-	INCBIN 'ECX:ppcifuncs_os4.o'
+	INCBIN 'ppcifuncs_os4.o'
 	LONG NIL
 
 

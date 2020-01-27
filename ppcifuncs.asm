@@ -413,14 +413,14 @@ _\@dispose_end:
    STW R3, EXCEPTION(GLOB)    # set exception global
    LWZ R4, EXCEPTSTRUCT(GLOB) # get last exceptstruct
    OR. R4, R4, R4
-   BEQ \@raise_cleanup
+   BEQ _\@raise_cleanup
    LWZ R0, OLDSTRUCT(R4)
    STW R0, EXCEPTSTRUCT(GLOB) # restore old exceptstruct
    LWZ R1, HANDLESTACK(R4)    # restore stackpointer
    LWZ R0, EXCEPTCODE(R4)     # get exceptioncode
    MTCTR R0
    BCTR                        # jump to handler
-\@raise_cleanup:
+_\@raise_cleanup:
    STW R3, CLIRETURNVAL(GLOB)
    LWZ R0, PPCCLEANUP(GLOB)
    MTCTR R0
@@ -1446,7 +1446,7 @@ _val_trim:
    cmpwi r8, "9"
    bgt _val_empty
 _val_dec:
-   lbz r8, (r3)
+   lbz r8, 0(r3)
    cmpwi r8, "0"
    blt _val_end
    cmpwi r8, "9"
@@ -1573,8 +1573,8 @@ _forward_end:
 .ENDM
 
 .MACRO M_PRIVATE_I2F
--> private convert 32bit integer to 64bit float
--> only trashes r0,f0,f13 !
+#-> private convert 32bit integer to 64bit float
+#-> only trashes r0,f0,f13 !
 P_PRIVATE_I2F: # integer:R0 => float:F0
    stw r3, -4(r1)
    or r3, r0, r0
@@ -1583,8 +1583,9 @@ P_PRIVATE_I2F: # integer:R0 => float:F0
    stw r4, -8(r1)
 
    bl $+12
-   .word 0x43300000  # %0100 0011 0011
-   .word 0x80000000
+   #.word 0x43300000  # %0100 0011 0011
+   #.word 0x80000000  ### VAsm fix --SDC
+   .word 0x43300000,0x80000000
    mflr r4
    lfd f13, 0(r4)
 
@@ -1709,10 +1710,16 @@ P_REALVAL: # str:R3 => val:F1, read:R3
    BL $+40+4
    .word 0x43300000
    .word 0x80000000
-   .uadouble 1.0
-   .uadouble 10.0
-   .uadouble 0.0
-   .uadouble -1.0
+   #.uadouble 1.0
+   #.uadouble 10.0
+   #.uadouble 0.0
+   #.uadouble -1.0
+   ###.uadouble directive not supported by vasm
+   ###changed to .uaquad --SDC
+   .uaquad 1.0
+   .uaquad 10.0
+   .uaquad 0.0
+   .uaquad -1.0
    MFLR R4
 
    LFD F13, 0(R4)
@@ -2037,10 +2044,15 @@ P_FFLOOR: # f1 => f1
    MFLR R12
 
    BL $ + 36
-   .UADOUBLE 0.0 # F5 = 0.0
-   .WORD 0x43300000 ; .WORD 0x00000000 # F3 = 0x43300000 = 252
-   .WORD 0xC3300000 ; .WORD 0x00000000 # F4 = 0xC3300000 = -252
-   .UADOUBLE 0.499999999999999999
+   #.UADOUBLE 0.0 # F5 = 0.0
+   .UAQUAD 0.0 ### changed to .uaquad --SDC
+   .WORD 0x43300000 
+   .WORD 0x00000000 # F3 = 0x43300000 = 252
+   .WORD 0xC3300000 
+   .WORD 0x00000000 # F4 = 0xC3300000 = -252
+   #.UADOUBLE 0.499999999999999999
+   .UAQUAD 0.499999999999999999 #VAsm compatibility again --SDC
+
    MFLR R3
    LFD F5, 0(R3)
    LFD F3, 8(R3)
@@ -2073,10 +2085,14 @@ P_FCEIL: # f1 => f1
    MFLR R12
 
    BL $ + 36
-   .UADOUBLE 0.0 # F5 = 0.0
-   .WORD 0x43300000 ; .WORD 0x00000000 # F3 = 0x43300000 = 252
-   .WORD 0xC3300000 ; .WORD 0x00000000 # F4 = 0xC3300000 = -252
-   .UADOUBLE 0.499999999999999999
+   #.UADOUBLE 0.0 # F5 = 0.0
+   .UAQUAD 0.0 # F5 = 0.0 #VAsm pickiness --SDC
+   .WORD 0x43300000 
+   .WORD 0x00000000 # F3 = 0x43300000 = 252
+   .WORD 0xC3300000 
+   .WORD 0x00000000 # F4 = 0xC3300000 = -252
+   #.UADOUBLE 0.499999999999999999
+   .UAQUAD 0.499999999999999999 ### VAsm fix --SDC
    MFLR R3
    LFD F5, 0(R3)
    LFD F3, 8(R3)
@@ -2112,15 +2128,16 @@ P_FSIN: # f1 => f1
    STW R0, 20(R1)
 
    BL _fsin_endtab
-   .UADOUBLE 0.166666666666667    # 1/fac 3
-   .UADOUBLE 0.008333333333333    # 1/fac 5
-   .UADOUBLE 0.000198412698412    # 1/fac 7
-   .WORD 0x3EC71DE3 ; .WORD 0xA556C734  # 1/fac 9 (bug in pasm doesnt handle float math exps)
-   .UADOUBLE 1.570796326794897 # PI/2
-   .UADOUBLE 0.636619772367581 # 2/PI
+   .UAQUAD  0.166666666666667    # 1/fac 3
+   .UAQUAD  0.008333333333333    # 1/fac 5
+   .UAQUAD  0.000198412698412    # 1/fac 7
+   .WORD 0x3EC71DE3 
+   .WORD 0xA556C734  # 1/fac 9 (bug in pasm doesnt handle float math exps)
+   .UAQUAD  1.570796326794897 # PI/2
+   .UAQUAD  0.636619772367581 # 2/PI
    .WORD 0x43300000  # %0100 0011 0011
    .WORD 0x80000000
-   .UADOUBLE 1.0
+   .UAQUAD  1.0
 _fsin_endtab:
    MFLR R3
    LFD F10, 0(R3)
@@ -2188,13 +2205,14 @@ P_FCOS: # f1 => f1
    STW R0, 20(R1)
 
    BL _fcos_endtab
-   .UADOUBLE 0.5 # 1 / 2!
-   .UADOUBLE 0.04166666666667 # 1 / 4!
-   .UADOUBLE 0.00138888888888 # 1 / 6!
-   .WORD 0x3EFA01A0 ; .WORD 0x20000000 # 1 / 8!
-   .UADOUBLE 1.0
-   .UADOUBLE 1.570796326794897 # PI/2
-   .UADOUBLE 0.636619772367581 # 2/PI
+   .UAQUAD  0.5 # 1 / 2!
+   .UAQUAD  0.04166666666667 # 1 / 4!
+   .UAQUAD  0.00138888888888 # 1 / 6!
+   .WORD 0x3EFA01A0 
+   .WORD 0x20000000 # 1 / 8!
+   .UAQUAD  1.0
+   .UAQUAD  1.570796326794897 # PI/2
+   .UAQUAD  0.636619772367581 # 2/PI
    .WORD 0x43300000  # %0100 0011 0011
    .WORD 0x80000000
 _fcos_endtab:
@@ -2287,15 +2305,17 @@ P_FEXP: # f1 => f1
    MFLR R0
 
    BL $ + 76
-   .UADOUBLE 0.5 # 1 / 2!
-   .UADOUBLE 0.166666666666667    # 1/fac 3
-   .UADOUBLE 0.04166666666667 # 1 / 4!
-   .UADOUBLE 0.008333333333333    # 1/fac 5
-   .UADOUBLE 0.00138888888888 # 1 / 6!
-   .UADOUBLE 0.000198412698412    # 1/fac 7
-   .WORD 0x3EFA01A0 ; .WORD 0x20000000 # 1 / 8!
-   .WORD 0x3EC71DE3 ; .WORD 0xA556C734  # 1/fac 9 (bug in pasm doesnt handle float math exps)
-   .UADOUBLE 1.0
+   .UAQUAD  0.5 # 1 / 2!
+   .UAQUAD  0.166666666666667    # 1/fac 3
+   .UAQUAD  0.04166666666667 # 1 / 4!
+   .UAQUAD  0.008333333333333    # 1/fac 5
+   .UAQUAD  0.00138888888888 # 1 / 6!
+   .UAQUAD  0.000198412698412    # 1/fac 7
+   .WORD 0x3EFA01A0 
+   .WORD 0x20000000 # 1 / 8!
+   .WORD 0x3EC71DE3 
+   .WORD 0xA556C734  # 1/fac 9 (bug in pasm doesnt handle float math exps)
+   .UAQUAD  1.0
    MFLR R3
 
    FMUL F2, F1, F1  # x2 := ! x*x
@@ -3007,7 +3027,7 @@ P_REALF: # estr:R3, double:F1, fracdigs=1:R4
    OR. R4, R4, R4
    BEQ $ + 20
    ADDI R0, 0, "-"
-   STB R0, (R9)
+   STB R0, 0(R9)
    ADDI R9, R9, 1
    FNEG F2, F2
 
@@ -3017,8 +3037,10 @@ P_REALF: # estr:R3, double:F1, fracdigs=1:R4
    .FLOAT 1.0
    .FLOAT 10.0
    .FLOAT 0.0
-   .WORD 0x43300000 ; .WORD 0x00000000
-   .WORD 0x3CC00000 ; .WORD 0x00000000
+   .WORD 0x43300000 
+   .WORD 0x00000000
+   .WORD 0x3CC00000 
+   .WORD 0x00000000
    MFLR R4
    LFS F0, 0(R4)
    LFS F1, 4(R4)
@@ -4980,7 +5002,7 @@ P_CODEEND:
 
 
 
-
+.if 0
 # UNDER CONSTRUCTION
 # new version 1.7.x for double precision and sysv conform.
 P_REALF_NEW: # estr:R3, double:F1, fracdigs:R4
@@ -5003,7 +5025,7 @@ P_REALF_NEW: # estr:R3, double:F1, fracdigs:R4
    .WORD 0x00000000 # 0x4330000000000000 = 252
    .WORD 0xC3300000
    .WORD 0x00000000 # 0xC330000000000000 = -252
-   .UADOUBLE 1000000000000000.0
+   .UAQUAD  1000000000000000.0
    MFLR R12
    LFS F13, 0(R12)
    FMR F6, F13
@@ -5055,4 +5077,4 @@ _realf_skipemptyzeroes:
    BEQ _realf_skipemptyzeroes
 _realf_construct_int:
 
-
+.endif

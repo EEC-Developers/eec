@@ -1,20 +1,19 @@
 .K target/A,define/K,more/K
 
 ;; NOTE: A special version of EC is *required* to compile eec.020. 
-set specialec code:asm/testec
-
+set specialec testec
 delete #?.m
 flushcache
 emptycache
 
 if <target> EQ MORPHOS
 set ename eec.mos
-set ec eec.020 showargs morphos opti define "STACKSIZE 250000;<define>" <more>
+set ec eec.020 showargs morphos opti define "STACKSIZE 262144;<define>" <more>
 endif
 
 if <target> EQ AMIGAOS4
 set ename eec.os4
-set ec eec.020 showargs amigaos4 opti define "STACKSIZE 250000;<define>" <more>
+set ec eec.020 showargs amigaos4 opti define "STACKSIZE 262144;<define>" <more>
 endif
 
 if <target> EQ AMIGAOS
@@ -44,12 +43,13 @@ $ec inline68.e
 $ec inlineppc.e
 $ec codegen.e
 $ec ppcgen.e
-$ec m68gen.e
+$ec 020gen.e
 $ec ecmodtrans.e
+echo building main
 if <target> EQ EC
    $ec eecmain.e
    delete eec.020
-   rename ecxmain eec.020
+   rename eecmain eec.020
 else
    $ec eecmain exename $ename
 endif
