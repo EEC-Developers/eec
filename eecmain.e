@@ -2434,6 +2434,10 @@ PROC scanadosobject(o:PTR TO LONG, relocs=FALSE)
 	WHILE (t := o[]++)
 	   ->WriteF('\h\n', t)
 	   SELECT t
+	   CASE $4E9 -> PPC CODE
+	      t := o[]++
+	      l := o
+	      o := o + Mul(t,4)
 	   CASE $3E9 -> CODE
 	      t := o[]++
 	      l := o
@@ -2720,11 +2724,11 @@ PROC loadTargetModule()
 
 	   -> 1.10.0, 2.0
 	   IF g_optosid = OSID_MORPHOS
-	      scantargetmodule('ecxmodules:ecx/target_morphos.m')
+	      scantargetmodule('ecxmodules:eec/target_morphos.m')
 	   ELSEIF g_optosid = OSID_AMIGAOS4
-	      scantargetmodule('ecxmodules:ecx/target_amigaos4.m')
+	      scantargetmodule('ecxmodules:eec/target_amigaos4.m')
 	   ELSEIF g_optosid = OSID_AMIGAOS
-	      scantargetmodule('ecxmodules:ecx/target_amigaos.m')
+	      scantargetmodule('ecxmodules:eec/target_amigaos.m')
 	   ENDIF
 
 	ENDIF
@@ -11196,31 +11200,31 @@ PROC putStartup() -> v48
 
 	IF g_optosid = OSID_MORPHOS
 	   IF g_librarymode
-	      code, len := scanstartupmodule('ecxmodules:ecx/multilibrary_morphos.m')
+	      code, len := scanstartupmodule('ecxmodules:eec/multilibrary_morphos.m')
 	   ELSEIF g_optminstartup
-	      code, len := scanstartupmodule('ecxmodules:ecx/minstartup_morphos.m')
+	      code, len := scanstartupmodule('ecxmodules:eec/minstartup_morphos.m')
 	   ELSE
-	      code, len := scanstartupmodule('ecxmodules:ecx/startup_morphos.m')
+	      code, len := scanstartupmodule('ecxmodules:eec/startup_morphos.m')
 	   ENDIF
 
 	ELSEIF g_optosid = OSID_AMIGAOS
 
 	   IF g_librarymode
-	      code, len := scanstartupmodule('ecxmodules:ecx/multilibrary_amigaos.m')
+	      code, len := scanstartupmodule('ecxmodules:eec/multilibrary_amigaos.m')
 	   ELSEIF g_optminstartup
-	      code, len := scanstartupmodule('ecxmodules:ecx/minstartup_amigaos.m')
+	      code, len := scanstartupmodule('ecxmodules:eec/minstartup_amigaos.m')
 	   ELSE
-	      code, len := scanstartupmodule('ecxmodules:ecx/startup_amigaos.m')
+	      code, len := scanstartupmodule('ecxmodules:eec/startup_amigaos.m')
 	   ENDIF
 
 	ELSEIF g_optosid = OSID_AMIGAOS4
 
 	   IF g_librarymode
-	      code, len := scanstartupmodule('ecxmodules:ecx/multilibrary_amigaos4.m')
+	      code, len := scanstartupmodule('ecxmodules:eec/multilibrary_amigaos4.m')
 	   ELSEIF g_optminstartup
-	      code, len := scanstartupmodule('ecxmodules:ecx/minstartup_amigaos4.m')
+	      code, len := scanstartupmodule('ecxmodules:eec/minstartup_amigaos4.m')
 	   ELSE
-	      code, len := scanstartupmodule('ecxmodules:ecx/startup_amigaos4.m')
+	      code, len := scanstartupmodule('ecxmodules:eec/startup_amigaos4.m')
 	   ENDIF
 
 	ELSE

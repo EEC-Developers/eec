@@ -6,6 +6,8 @@ delete #?.m
 flushcache
 emptycache
 
+set target <target>
+
 if <target> EQ MORPHOS
 set ename eec.mos
 set ec eec.020 showargs morphos opti define "STACKSIZE 262144;<define>" <more>
@@ -24,6 +26,11 @@ endif
 if <target> EQ EC
 set ec $specialec addbuf=900 errline large ignorecache <more>
 ;set ec ec addbuf=900 opti large errline <more>
+endif
+
+if <target> EQ EVO
+set ec evo showfname legacy addbuf=900 errline large ignorecache <more>
+set target EC
 endif
 
 echo target: <target>
@@ -46,12 +53,12 @@ $ec ppcgen.e
 $ec 020gen.e
 $ec ecmodtrans.e
 echo building main
-if <target> EQ EC
+if target EQ EC
    $ec eecmain.e
    delete eec.020
    rename eecmain eec.020
 else
-   $ec eecmain exename $ename
+  $ec eecmain exename $ename
 endif
 
 

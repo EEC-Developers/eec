@@ -54,7 +54,7 @@ MODULE 'exec/execbase'
 MODULE 'dos/dosextens'
 MODULE 'dos/dos'
 MODULE 'exec/memory'
-MODULE '*runtime'
+MODULE 'runtime'
 MODULE 'exec/libraries'
 
 EXPORT ___startinfo:

@@ -170,7 +170,7 @@ OPT MODULE, PREPROCESS
 
 MODULE 'morphos/exec/libraries'
 MODULE 'exec/memory'
-MODULE '*runtime'
+MODULE 'runtime'
 MODULE 'exec/nodes'
 MODULE 'exec/lists'
 MODULE 'exec/execbase'

@@ -42,122 +42,121 @@
 # Enable _AMIGAOS4_ to use.
 
  .TEXT
+.LONG P_FASTNEW         # 0
+.LONG P_FASTDISPOSE     # 1
+.LONG P_NEW             # 2
+.LONG P_NEWR            # 3
+.LONG P_DISPOSE         # 4
+.LONG P_STRINGF_OLD     # 5
+.LONG P_RAISE           # 6
+.LONG P_THROW           # 7
+.LONG P_RETHROW         # 8
+.LONG P_STRCOPY         # 9
+.LONG P_STRADD          # 10
+.LONG P_STRCMP          # 11
+.LONG P_STRLEN          # 12
+.LONG P_TRIMSTR         # 13
+.LONG P_ASTRCOPY        # 14
+.LONG P_RNDQ            # 15
+.LONG P_BOUNDS          # 16
+.LONG P_MIN             # 17
+.LONG P_MAX             # 18
+.LONG P_ABS             # 19
+.LONG P_SIGN            # 20
+.LONG P_STRING          # 21
+.LONG P_LIST            # 22
+.LONG P_WRITEF_OLD      # 23
+.LONG P_PRINTF_OLD      # 24
+.LONG P_CLEANUP         # 25
+.LONG P_FREESTACK       # 26
+.LONG P_INSTR           # 27
+.LONG P_UPPERSTR        # 28
+.LONG P_LOWERSTR        # 29
+.LONG P_OPENW           # 30
+.LONG P_READSTR         # 31
+.LONG P_CLOSEW          # 32
+.LONG P_LISTCOPY        # 33
+.LONG P_LISTADD         # 34
+.LONG P_LISTCMP         # 35
+.LONG P_VAL             # 36
+.LONG P_CTRLC           # 37
+.LONG P_MOD             # 38
+.LONG P_FORWARD         # 39
+.LONG P_PRIVATE_I2F     # 40 - private float support
+.LONG P_DISPOSELINK     # 41
+.LONG P_FASTDISPOSELIST # 42
+.LONG P_KICKVERSION     # 43
+.LONG P_REALVAL         # 44
+.LONG P_INP             # 45
+.LONG P_OUT             # 46
+.LONG P_FORALL          # 47
+.LONG P_EXISTS          # 48
+.LONG P_MAPLIST         # 49
+.LONG P_SELECTLIST      # 50
+.LONG P_FABS            # 51 (OLD)
+.LONG P_FFLOOR          # 52
+.LONG P_FCEIL           # 53
+.LONG P_FSIN            # 54
+.LONG P_FCOS            # 55
+.LONG P_FTAN            # 56
+.LONG P_FEXP            # 57
+.LONG P_FLOG            # 58
+.LONG P_FPOW            # 59
+.LONG P_FSQRT           # 60
+.LONG P_FLOG10          # 61
+.LONG P_FATAN           # 62
+.LONG P_FSINCOS         # 63
+.LONG P_FSINH           # 64
+.LONG P_FCOSH           # 65
+.LONG P_FTANH           # 66
+.LONG P_FTIEEE          # 67
+.LONG P_FFIEEE          # 68
+.LONG P_FASIN           # 69
+.LONG P_FACOS           # 70
+.LONG P_LEFTMOUSE       # 71
+.LONG P_WAITLEFTMOUSE   # 72
+.LONG P_WAITIMESSAGE    # 73
+.LONG P_SETSTDIN        # 74
+.LONG P_SETSTDOUT       # 75
+.LONG P_SETSTDRAST      # 76
+.LONG P_TEXTF_OLD       # 77
+.LONG P_REALF           # 78
+.LONG P_FILELENGTH      # 79
+.LONG P_MIDSTR          # 80
+.LONG P_PLOT            # 81
+.LONG P_LINE            # 82
+.LONG P_RND             # 83
+.LONG P_BOX             # 84
+.LONG P_RIGHTSTR        # 85
+.LONG P_SETCHUNKSIZE    # 86
+.LONG P_SETCOLOUR       # 87
+.LONG P_OPENS           # 88
+.LONG P_CLOSES          # 89
+.LONG P_OSTRCMP         # 90
+.LONG P_NEWM            # 91
+.LONG P_XTOD            # 92 DEPRECATED BUT KEPT
+.LONG P_DTOX            # 93 DEPRECATED BUT KEPT
+.LONG P_DEBUGF_OLD      # 94
+.LONG P_COLOUR          # 95 (1.4.6)
+.LONG P_PRIVATE_STRFMT_OLD  # 96 (1.5) PRIVATE, OBSOLETE
 
-.WORD P_FASTNEW         # 0
-.WORD P_FASTDISPOSE     # 1
-.WORD P_NEW             # 2
-.WORD P_NEWR            # 3
-.WORD P_DISPOSE         # 4
-.WORD P_STRINGF_OLD     # 5
-.WORD P_RAISE           # 6
-.WORD P_THROW           # 7
-.WORD P_RETHROW         # 8
-.WORD P_STRCOPY         # 9
-.WORD P_STRADD          # 10
-.WORD P_STRCMP          # 11
-.WORD P_STRLEN          # 12
-.WORD P_TRIMSTR         # 13
-.WORD P_ASTRCOPY        # 14
-.WORD P_RNDQ            # 15
-.WORD P_BOUNDS          # 16
-.WORD P_MIN             # 17
-.WORD P_MAX             # 18
-.WORD P_ABS             # 19
-.WORD P_SIGN            # 20
-.WORD P_STRING          # 21
-.WORD P_LIST            # 22
-.WORD P_WRITEF_OLD      # 23
-.WORD P_PRINTF_OLD      # 24
-.WORD P_CLEANUP         # 25
-.WORD P_FREESTACK       # 26
-.WORD P_INSTR           # 27
-.WORD P_UPPERSTR        # 28
-.WORD P_LOWERSTR        # 29
-.WORD P_OPENW           # 30
-.WORD P_READSTR         # 31
-.WORD P_CLOSEW          # 32
-.WORD P_LISTCOPY        # 33
-.WORD P_LISTADD         # 34
-.WORD P_LISTCMP         # 35
-.WORD P_VAL             # 36
-.WORD P_CTRLC           # 37
-.WORD P_MOD             # 38
-.WORD P_FORWARD         # 39
-.WORD P_PRIVATE_I2F     # 40 - private float support
-.WORD P_DISPOSELINK     # 41
-.WORD P_FASTDISPOSELIST # 42
-.WORD P_KICKVERSION     # 43
-.WORD P_REALVAL         # 44
-.WORD P_INP             # 45
-.WORD P_OUT             # 46
-.WORD P_FORALL          # 47
-.WORD P_EXISTS          # 48
-.WORD P_MAPLIST         # 49
-.WORD P_SELECTLIST      # 50
-.WORD P_FABS            # 51 (OLD)
-.WORD P_FFLOOR          # 52
-.WORD P_FCEIL           # 53
-.WORD P_FSIN            # 54
-.WORD P_FCOS            # 55
-.WORD P_FTAN            # 56
-.WORD P_FEXP            # 57
-.WORD P_FLOG            # 58
-.WORD P_FPOW            # 59
-.WORD P_FSQRT           # 60
-.WORD P_FLOG10          # 61
-.WORD P_FATAN           # 62
-.WORD P_FSINCOS         # 63
-.WORD P_FSINH           # 64
-.WORD P_FCOSH           # 65
-.WORD P_FTANH           # 66
-.WORD P_FTIEEE          # 67
-.WORD P_FFIEEE          # 68
-.WORD P_FASIN           # 69
-.WORD P_FACOS           # 70
-.WORD P_LEFTMOUSE       # 71
-.WORD P_WAITLEFTMOUSE   # 72
-.WORD P_WAITIMESSAGE    # 73
-.WORD P_SETSTDIN        # 74
-.WORD P_SETSTDOUT       # 75
-.WORD P_SETSTDRAST      # 76
-.WORD P_TEXTF_OLD       # 77
-.WORD P_REALF           # 78
-.WORD P_FILELENGTH      # 79
-.WORD P_MIDSTR          # 80
-.WORD P_PLOT            # 81
-.WORD P_LINE            # 82
-.WORD P_RND             # 83
-.WORD P_BOX             # 84
-.WORD P_RIGHTSTR        # 85
-.WORD P_SETCHUNKSIZE    # 86
-.WORD P_SETCOLOUR       # 87
-.WORD P_OPENS           # 88
-.WORD P_CLOSES          # 89
-.WORD P_OSTRCMP         # 90
-.WORD P_NEWM            # 91
-.WORD P_XTOD            # 92 DEPRECATED BUT KEPT
-.WORD P_DTOX            # 93 DEPRECATED BUT KEPT
-.WORD P_DEBUGF_OLD      # 94
-.WORD P_COLOUR          # 95 (1.4.6)
-.WORD P_PRIVATE_STRFMT_OLD  # 96 (1.5) PRIVATE, OBSOLETE
-
-.WORD P_STRINGF         # 97 (1.5.4) New version
-.WORD P_PRINTF          # 98 (1.5.4) New version
-.WORD P_WRITEF          # 99 (1.5.4) New version
-.WORD P_TEXTF           # 100 (1.5.4) New version
-.WORD P_DEBUGF          # 101 (1.5.4) New version
+.LONG P_STRINGF         # 97 (1.5.4) New version
+.LONG P_PRINTF          # 98 (1.5.4) New version
+.LONG P_WRITEF          # 99 (1.5.4) New version
+.LONG P_TEXTF           # 100 (1.5.4) New version
+.LONG P_DEBUGF          # 101 (1.5.4) New version
 
 # 1.10.0 May 2008 v55
-.WORD P_PRIVATE_SHL64      # 102
-.WORD P_PRIVATE_SHR64      # 103
-.WORD P_PRIVATE_ASR64      # 104
-.WORD P_PRIVATE_DIV64      # 105
-.WORD P_MOD64              # 106
-.WORD P_ABS64              # 107
-.WORD P_PRIVATE_F2D64      # 108
-.WORD P_PRIVATE_D642F      # 109
+.LONG P_PRIVATE_SHL64      # 102
+.LONG P_PRIVATE_SHR64      # 103
+.LONG P_PRIVATE_ASR64      # 104
+.LONG P_PRIVATE_DIV64      # 105
+.LONG P_MOD64              # 106
+.LONG P_ABS64              # 107
+.LONG P_PRIVATE_F2D64      # 108
+.LONG P_PRIVATE_D642F      # 109
 
-.WORD P_CODEEND
+.LONG P_CODEEND
 
 # constants ######
 

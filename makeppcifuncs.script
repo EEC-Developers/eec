@@ -1,1 +1,1 @@
-vasmppc_std -Felf -big -many -o ppcifuncs.o ppcifuncs.asm
+vasmppc_std -Fhunk -big -many -o ppcifuncs.o ppcifuncs.asm
