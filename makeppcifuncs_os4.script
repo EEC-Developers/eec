@@ -1,1 +1,1 @@
-vasmppc_std -Felf -big -many -D_AMIGAOS4_ -o ppcifuncs_os4.o ppcifuncs.asm
+vasmppc_std -Fhunk -big -many -D_AMIGAOS4_ -o ppcifuncs_os4.o ppcifuncs.asm

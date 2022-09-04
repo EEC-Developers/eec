@@ -39,7 +39,7 @@ MODULE 'dos/dosextens'
 MODULE 'dos/dos'
 MODULE 'exec/memory'
 MODULE 'powerpc/simple'
-MODULE '*runtime'
+MODULE 'runtime'
 MODULE 'exec/libraries'
 
 EXPORT ___startinfo:
