@@ -42,7 +42,6 @@
 # Enable _AMIGAOS4_ to use.
 
  .TEXT
-.LONG $12345678
 .LONG P_FASTNEW         # 0
 .LONG P_FASTDISPOSE     # 1
 .LONG P_NEW             # 2
