@@ -53,12 +53,12 @@ $ec ppcgen.e
 $ec 020gen.e
 $ec ecmodtrans.e
 echo building main
-if target EQ EC
+if $target EQ EC
    $ec eecmain.e
    delete eec.020
    rename eecmain eec.020
 else
-  $ec eecmain exename $ename
+   $ec eecmain exename $ename
 endif
 
 
