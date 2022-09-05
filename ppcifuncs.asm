@@ -1582,9 +1582,9 @@ P_PRIVATE_I2F: # integer:R0 => float:F0
    stw r4, -8(r1)
 
    bl $+12
-   #.word 0x43300000  # %0100 0011 0011
-   #.word 0x80000000  ### VAsm fix --SDC
-   .word 0x43300000,0x80000000
+   #.long 0x43300000  # %0100 0011 0011
+   #.long 0x80000000  ### VAsm fix --SDC
+   .long 0x43300000,0x80000000
    mflr r4
    lfd f13, 0(r4)
 
@@ -1707,8 +1707,8 @@ P_REALVAL: # str:R3 => val:F1, read:R3
    OR R8, R3, R3
 
    BL $+40+4
-   .word 0x43300000
-   .word 0x80000000
+   .long 0x43300000
+   .long 0x80000000
    #.uadouble 1.0
    #.uadouble 10.0
    #.uadouble 0.0
@@ -2045,10 +2045,10 @@ P_FFLOOR: # f1 => f1
    BL $ + 36
    #.UADOUBLE 0.0 # F5 = 0.0
    .UAQUAD 0.0 ### changed to .uaquad --SDC
-   .WORD 0x43300000 
-   .WORD 0x00000000 # F3 = 0x43300000 = 252
-   .WORD 0xC3300000 
-   .WORD 0x00000000 # F4 = 0xC3300000 = -252
+   .LONG 0x43300000 
+   .LONG 0x00000000 # F3 = 0x43300000 = 252
+   .LONG 0xC3300000 
+   .LONG 0x00000000 # F4 = 0xC3300000 = -252
    #.UADOUBLE 0.499999999999999999
    .UAQUAD 0.499999999999999999 #VAsm compatibility again --SDC
 
@@ -2086,10 +2086,10 @@ P_FCEIL: # f1 => f1
    BL $ + 36
    #.UADOUBLE 0.0 # F5 = 0.0
    .UAQUAD 0.0 # F5 = 0.0 #VAsm pickiness --SDC
-   .WORD 0x43300000 
-   .WORD 0x00000000 # F3 = 0x43300000 = 252
-   .WORD 0xC3300000 
-   .WORD 0x00000000 # F4 = 0xC3300000 = -252
+   .LONG 0x43300000 
+   .LONG 0x00000000 # F3 = 0x43300000 = 252
+   .LONG 0xC3300000 
+   .LONG 0x00000000 # F4 = 0xC3300000 = -252
    #.UADOUBLE 0.499999999999999999
    .UAQUAD 0.499999999999999999 ### VAsm fix --SDC
    MFLR R3
@@ -2130,12 +2130,12 @@ P_FSIN: # f1 => f1
    .UAQUAD  0.166666666666667    # 1/fac 3
    .UAQUAD  0.008333333333333    # 1/fac 5
    .UAQUAD  0.000198412698412    # 1/fac 7
-   .WORD 0x3EC71DE3 
-   .WORD 0xA556C734  # 1/fac 9 (bug in pasm doesnt handle float math exps)
+   .LONG 0x3EC71DE3 
+   .LONG 0xA556C734  # 1/fac 9 (bug in pasm doesnt handle float math exps)
    .UAQUAD  1.570796326794897 # PI/2
    .UAQUAD  0.636619772367581 # 2/PI
-   .WORD 0x43300000  # %0100 0011 0011
-   .WORD 0x80000000
+   .LONG 0x43300000  # %0100 0011 0011
+   .LONG 0x80000000
    .UAQUAD  1.0
 _fsin_endtab:
    MFLR R3
@@ -2207,13 +2207,13 @@ P_FCOS: # f1 => f1
    .UAQUAD  0.5 # 1 / 2!
    .UAQUAD  0.04166666666667 # 1 / 4!
    .UAQUAD  0.00138888888888 # 1 / 6!
-   .WORD 0x3EFA01A0 
-   .WORD 0x20000000 # 1 / 8!
+   .LONG 0x3EFA01A0 
+   .LONG 0x20000000 # 1 / 8!
    .UAQUAD  1.0
    .UAQUAD  1.570796326794897 # PI/2
    .UAQUAD  0.636619772367581 # 2/PI
-   .WORD 0x43300000  # %0100 0011 0011
-   .WORD 0x80000000
+   .LONG 0x43300000  # %0100 0011 0011
+   .LONG 0x80000000
 _fcos_endtab:
    MFLR R3
    LFD F10, 0(R3)
@@ -2310,10 +2310,10 @@ P_FEXP: # f1 => f1
    .UAQUAD  0.008333333333333    # 1/fac 5
    .UAQUAD  0.00138888888888 # 1 / 6!
    .UAQUAD  0.000198412698412    # 1/fac 7
-   .WORD 0x3EFA01A0 
-   .WORD 0x20000000 # 1 / 8!
-   .WORD 0x3EC71DE3 
-   .WORD 0xA556C734  # 1/fac 9 (bug in pasm doesnt handle float math exps)
+   .LONG 0x3EFA01A0 
+   .LONG 0x20000000 # 1 / 8!
+   .LONG 0x3EC71DE3 
+   .LONG 0xA556C734  # 1/fac 9 (bug in pasm doesnt handle float math exps)
    .UAQUAD  1.0
    MFLR R3
 
@@ -3036,10 +3036,10 @@ P_REALF: # estr:R3, double:F1, fracdigs=1:R4
    .FLOAT 1.0
    .FLOAT 10.0
    .FLOAT 0.0
-   .WORD 0x43300000 
-   .WORD 0x00000000
-   .WORD 0x3CC00000 
-   .WORD 0x00000000
+   .LONG 0x43300000 
+   .LONG 0x00000000
+   .LONG 0x3CC00000 
+   .LONG 0x00000000
    MFLR R4
    LFS F0, 0(R4)
    LFS F1, 4(R4)
@@ -3752,8 +3752,8 @@ P_XTOD: # x:F1 => d:F1
    MFLR R12
    STFD F1, -8(R1)
    BL $ + 12
-   .WORD 0x43380000
-   .WORD 0x00000000
+   .LONG 0x43380000
+   .LONG 0x00000000
    MFSPR R3, 8
    LFD F0, 0(R3)
    LWZ R3, -8(R1)
@@ -3775,8 +3775,8 @@ P_DTOX: # d:F1 => x:F1
    MFLR R12
    STFD F1, -8(R1)
    BL $ + 12
-   .WORD 0x43380000
-   .WORD 0x00000000
+   .LONG 0x43380000
+   .LONG 0x00000000
    MFSPR R3, 8
    LFD F0, 0(R3)
    LWZ R3, -8(R1)
@@ -4805,8 +4805,8 @@ P_PRIVATE_F2D64:
    MFLR R6
 
    BL $ + 12
-   .WORD 0x43380000
-   .WORD 0x00000000
+   .LONG 0x43380000
+   .LONG 0x00000000
    MFSPR R3, 8
    LFD F0, 0(R3)
    LWZ R3, 0(R11)
@@ -4845,8 +4845,8 @@ P_PRIVATE_D642F:
    MFLR R5
 
    BL $ + 12
-   .WORD 0x43380000
-   .WORD 0x00000000
+   .LONG 0x43380000
+   .LONG 0x00000000
    MFSPR R3, 8
    LFD F0, 0(R3)
    LWZ R3, 0(R11)
@@ -5020,10 +5020,10 @@ P_REALF_NEW: # estr:R3, double:F1, fracdigs:R4
    .FLOAT 1.0
    .FLOAT 10.0
    .FLOAT 0.0
-   .WORD 0x43300000
-   .WORD 0x00000000 # 0x4330000000000000 = 252
-   .WORD 0xC3300000
-   .WORD 0x00000000 # 0xC330000000000000 = -252
+   .LONG 0x43300000
+   .LONG 0x00000000 # 0x4330000000000000 = 252
+   .LONG 0xC3300000
+   .LONG 0x00000000 # 0xC330000000000000 = -252
    .UAQUAD  1000000000000000.0
    MFLR R12
    LFS F13, 0(R12)
