@@ -2,7 +2,7 @@
 
 EEC is an advanced compiler for the AmigaE programming language. It's based on ECX by Leif Salmonsson with the intention of adding optimization and new backends. 
 
-## Build Instructions (Incomplete)
+## Build Instructions
 
 1. Configure FS-UAE or WinUAE to have at least a full 68020 or better and 128 MiB of Z3 Fast RAM on AmigaOS 3.1 up to AmigaOS 3.9.
 1. Install VAsmm68k_mot for the 68k startup code.
