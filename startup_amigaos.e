@@ -182,8 +182,10 @@ exitcode:
    LOADSTACKRETURN
 endpart:
 
-   StackSwap(___stackswapstruct)
-   FreeVec(stackmem)
+   IF rwmem
+	  IF ___stackswapstruct THEN StackSwap(___stackswapstruct)
+   ENDIF
+   IF stackmem THEN FreeVec(stackmem)
 
    IF rwmem
 
