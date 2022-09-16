@@ -124,6 +124,8 @@ DEF g_optimize=FALSE -> OPTI/S
 DEF g_nowarn=FALSE -> OPT NOWARN, NOWARN/S
 DEF g_vardebug=FALSE -> VARDEBUG/S
 DEF g_linedebug=FALSE -> LINEDEBUG/S
+DEF g_stepdebug=FALSE -> STEPDEBUG/S
+DEF g_stepdebug50=FALSE -> STEPDEBUG50/S
 DEF g_symbolhunk=FALSE -> SYMBOLHUNK/S
 DEF g_quiet=FALSE -> v49
 DEF g_showbuf=FALSE
@@ -291,6 +293,7 @@ ENUM ARG_SOURCE,
 	  ARG_EXENAME, -> v49
 	  ARG_MODNAME, -> 1.5.6
 	  ARG_STEPDEBUG, -> 1.6.0
+	  ARG_STEPDEBUG50, -> 2.3.1
 	  ARG_POWERPC, -> v52
 	  ARG_MORPHOS, -> v52
 	  ARG_AMIGAOS, -> 1.10.0
@@ -346,6 +349,7 @@ PROC main() HANDLE
 	                   'EXENAME/K,'+
 	                   'MODNAME/K,'+
 	                   'STEP=STEPDEBUG/S,'+
+	                   'STEP50=STEPDEBUG50/S,'+
 	                   'POWERPC/S,'+
 	                   'MORPHOS/S,'+
 	                   'AMIGAOS/S,'+
@@ -400,6 +404,18 @@ PROC main() HANDLE
 	   g_symbolhunk := TRUE
 	ENDIF
 	IF args[ARG_LINEDEBUG]  THEN g_linedebug := TRUE
+	IF args[ARG_STEPDEBUG] 
+     g_stepdebug := TRUE
+     g_symbolhunk := TRUE
+     g_linedebug := TRUE
+     g_vardebug := TRUE
+  ENDIF
+	IF args[ARG_STEPDEBUG50]
+    g_stepdebug50 := TRUE
+    g_symbolhunk := TRUE
+    g_linedebug := TRUE
+    g_vardebug := TRUE
+  ENDIF
 	IF args[ARG_VARDEBUG]   THEN g_vardebug := TRUE
 	IF args[ARG_SHOWBUF]    THEN g_showbuf := TRUE
 	IF args[ARG_WBTOFRONT]  THEN wbtofront := TRUE
