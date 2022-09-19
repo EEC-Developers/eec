@@ -3,7 +3,7 @@
 
 OPT PREPROCESS
 
-MODULE '*ecxelf'
+MODULE '*eecelf'
 MODULE '*ppcdisasm'
 
 -> Jan, Apr, Jul 2003

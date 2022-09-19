@@ -24,6 +24,9 @@ ENDPROC x SHR v
 PROC main() HANDLE
    DEF fh=NIL, ptr:PTR TO LONG, str[24]:STRING, rdargs=NIL, args[2]:ARRAY OF LONG
 
+   args[]:=0
+   args[1]:=0
+
    /* read agrs */
    rdargs := ReadArgs('FILE/A,'+
                       'DIS/S',
@@ -40,8 +43,6 @@ PROC main() HANDLE
    ptr := fbuf
 
    disasm := args[1]
-
-
 
    WHILE (ptr := dohunk(ptr))
    ENDWHILE
