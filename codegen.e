@@ -64,7 +64,7 @@ DEF g_sizeofptr
 DEF g_linelist:PTR TO linedef, g_codelablist:PTR TO codelab, g_multireturn:PTR TO multireturn
 DEF g_optpowerpc, g_optmodule
 DEF g_globalsize, g_rwreflist:PTR TO rwref, g_databufsize
-DEF g_nilcheck, g_linedebug
+DEF g_nilcheck, g_linedebug, g_stepdebug,g_stepdebug50
 DEF link_reloc32list, link_nrofreloc32s
 DEF g_linenum, g_numregalloc, g_numfregalloc
 DEF g_stacksize, g_modulelist:PTR TO mlh
@@ -449,6 +449,14 @@ PROC def_line(l)
       IF g_linelist.offset = (currentOffset()) THEN RETURN
    ENDIF
    g_linelist := NEW [g_linelist, l, currentOffset()]:linedef
+   IF g_stepdebug AND (g_optpowerpc=CPU_M68)
+     nop()
+   ENDIF
+   IF g_stepdebug50 AND (g_optpowerpc=CPU_M68)
+     nop()
+     nop()
+     nop()
+   ENDIF
 ENDPROC
 
 
@@ -658,7 +666,7 @@ PROC compileCode(n:PTR TO item, oneliner=FALSE) OF codegen
    #endif
 
    IF FreeStack() < 4000 THEN Raise("STCK") -> 2.0
-
+   
 
    WHILE (t := n.data)
       as := NIL
