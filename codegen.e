@@ -1,8 +1,9 @@
 
--> ECX/codegen.e
+-> EEC/codegen.e
 
+/* EEC by Samuel Crow et al. [samuraileumas yahoo com] is Copyright (c)2025 */
 /* ECX by Leif Salomonsson [ecx tele2 se] is Copyright (c) 2002-2008 */
-/* Released under the ECX COMPILER LICENSE, See ECXCOMPILERLICENSE.TXT */
+/* Released under the ECX COMPILER LICENSE, See CompilerLicense.md */
 
 
 OPT MODULE
@@ -16,6 +17,7 @@ OPT EXPORT
 
 MODULE 'exec/lists'
 
+MODULE '*libcodegen_headers'
 MODULE '*compiler'
 MODULE '*common'
 MODULE '*binary'
@@ -28,7 +30,7 @@ MODULE '*assembler' -> v55
 -> v58
 CONST D64STACKSIZE = 8*8
 
-#define Put32(v) g_codeptr[]++ := v
+#define Put32(v) g.codeptr[]++ := v
 
 OBJECT derefargs
    pk -> copy of it_varexp.postkey
@@ -49,122 +51,15 @@ OBJECT lastx
    rx
 ENDOBJECT
 
--> v49, g_regusetable point to array of this now, isntead of CHAR
+-> v49, g.regusetable point to array of this now, isntead of CHAR
 OBJECT oreg -> obtainable register
    obtains:CHAR -> count of obtains (totals read and write)
    write:CHAR -> number of write-obtains, or 0.  was: 1 if obtained for write, else 0
 ENDOBJECT
 
-
-DEF g_codeptr:PTR TO LONG, g_codebuf, g_databuf
-DEF g_gvarlist:PTR TO gvar
-DEF g_currentproc:PTR TO proc
-DEF link_codesize
-DEF g_sizeofptr
-DEF g_linelist:PTR TO linedef, g_codelablist:PTR TO codelab, g_multireturn:PTR TO multireturn
-DEF g_optpowerpc, g_optmodule
-DEF g_globalsize, g_rwreflist:PTR TO rwref, g_databufsize
-DEF g_nilcheck, g_linedebug, g_stepdebug,g_stepdebug50
-DEF link_reloc32list, link_nrofreloc32s
-DEF g_linenum, g_numregalloc, g_numfregalloc
-DEF g_stacksize, g_modulelist:PTR TO mlh
-DEF g_objectlist:PTR TO object, g_symbolhunk
-DEF g_naturalalign -> 1.8.2
-
-DEF g_regusetab:PTR TO oreg
-DEF g_lastx:PTR TO lastx
-
-DEF g_dreg -> RX/DRX
-DEF g_areg -> RX/ARX
-DEF g_freg -> FPX
-DEF g_vreg -> VX
-DEF g_d64reg -> D64 v55
-DEF g_ireg0  -> R3/D0   (non obtainable)
-DEF g_ireg1  -> R4/D1
-DEF g_freg0  -> FP1, F1
-DEF g_stackreg -> R1/A7  (non obtainable, dedicated)
-DEF g_selfreg  -> R12/A0
-DEF g_globreg  -> R13/A4 (non obtainable, dedicated)
-DEF g_framereg -> R1/A5  (non obtainable, dedicated)
-DEF g_atemp   -> R11/A6 (non obtainable)
-DEF g_dtemp   -> R12/D3 (non obtain)
-DEF g_ftemp   -> FP0/F0 (non obtain)
-DEF g_d64temp -> v55
-
-DEF g_safeimmlists -> v57, imported from main and used by doList()
-
-CONST REGUSETABSIZE=96
-
-#define PTRSIZE g_sizeofptr
-#define REALSIZE 8
-
-ENUM ISEQ, ISNE, ISGT, ISLT, ISGE, ISLE
-
-ENUM IID_DUMMY,
-     IID_COPY, -> o1,d1, o2,d2
-     IID_RET, ->
-     IID_BIC,
-
-     IID_NEGREG, -> v42
-     IID_MULREG,
-     IID_DIVREG,
-     IID_SHRREG,
-     IID_SHLREG,
-     IID_ADDREG,
-     IID_SUBREG,
-     IID_ORREG,
-     IID_ANDREG,
-     IID_SICREG, -> v41
-     IID_XORREG, -> v55
-     IID_NOTREG, -> v55
-     IID_ASRREG, -> v55
-     IID_ABSREG, -> 2.2
-
-      -> v55
-     IID_NEGD64,
-     IID_MULD64,
-     IID_DIVD64,
-     IID_SHRD64,
-     IID_SHLD64,
-     IID_ADDD64,
-     IID_SUBD64,
-     IID_ORD64,
-     IID_ANDD64,
-     IID_SICD64,
-     IID_D642F,
-     IID_F2D64,
-     IID_D642I,
-     IID_I2D64,
-     IID_XORD64,
-     IID_NOTD64,
-     IID_ASRD64,
-     IID_ABSD64, -> 2.2
-
-     IID_FADDREG,
-     IID_FSUBREG,
-     IID_FMULREG,
-     IID_FDIVREG,
-     IID_I2FREG,
-     IID_F2IREG,
-     IID_FSICREG, -> v41
-     IID_FNEGREG, -> v44
-     IID_FABSREG, -> 2.2
-
-     IID_GOLAB,
-     IID_GOARX,
-     IID_VARADR, -> new
-     IID_GETRWD, -> new v34
-     IID_LABADR, -> v44
-     IID_GOSLAB,
-     IID_GOSARX,
-     IID_GETIMMSTR, -> v49 (str, arx)
-     IID_INCVAR, -> 1.5.3 (var,val)
-     IID_INCARX, -> 1.5.3 (arx,val)
-     IID_PUSH,    -> 1.8.1 (size,o,d)
-     IID_POP      -> 1.8.1 (size,o,d)
-
-
-
+#define link_codesize g.link_codesize
+#define link_nrofreloc32s g.link_nrofreloc32s
+#define link_reloc32list g.link_reloc32list
 
 -> ofs:16, size:5, ax:5, flags:5, rsrvd:1
 #define AxSizeOfsF(ax,size,ofs,flags) __axsizeofsf(ax,size,ofs,flags)
@@ -210,7 +105,7 @@ OBJECT hintargs
    hregisvar:INT
 ENDOBJECT
 
-OBJECT codegen
+OBJECT codegen OF lib_env_heap -> extends library heap
    -> 1.6.1
    fastnew_lif:PTR TO lif
    fastdispose_lif:PTR TO lif
@@ -220,23 +115,6 @@ OBJECT codegen
    ivar_exception:PTR TO gvar
    pvar_exceptstruct:PTR TO gvar
 ENDOBJECT
-
-#define GLOBREG g_globreg
-#define STACKREG g_stackreg
-#define FRAMEREG g_framereg
-#define IREG0 g_ireg0
-#define IREG1 g_ireg1
-#define IREG2 g_ireg2
-#define FREG0 g_freg0
-#define VREG0 g_vreg0
-#define SELFREG g_selfreg
-
--> theese 3 are NOT obtainable !
-#define ATEMP g_atemp
-#define DTEMP g_dtemp
-#define FTEMP g_ftemp
-#define VTEMP g_vtemp
-#define D64TEMP g_d64temp
 
 #define EMPTYMETHOD(xxx,codegen) PROC xxx OF codegen IS WriteF('codegen.xxx is EMPTY !\n') BUT NIL
 
@@ -305,13 +183,13 @@ EMPTYMETHOD(putGlobInit(), codegen)
 -> v58
 EMPTYMETHOD(doMethod(n,as,as2,postkey,type), codegen)
 
-
-PROC initCodegen() OF codegen
+-> v2.4 now extends lib_env_heap for no more globals
+PROC initCodegen(g:PTR TO lib_env_heap) OF codegen
    #ifdef DBG_CODEGEN
    DEBUGF('initCodegen()\n')
    #endif
-   NEW g_lastx
-   NEW g_regusetab[REGUSETABSIZE]
+   NEW self.lastx
+   NEW self.regusetab[REGUSETABSIZE]
 ENDPROC
 
 PROC checkmemlist()
@@ -325,7 +203,7 @@ ENDPROC
 
 
 
-PROC clearRegs()  -> for 68k and ppc, at label entry, inline asm, etc-
+PROC clearRegs(g:PTR TO lib_env_heap)  -> for 68k and ppc, at label entry, inline asm, etc-
    DEF a, t, var:REG PTR TO var
 
    #ifdef DBG_CODEGEN
@@ -336,7 +214,7 @@ PROC clearRegs()  -> for 68k and ppc, at label entry, inline asm, etc-
       DEBUGF('\n')
       #endif
 
-   var := g_gvarlist
+   var := g.gvarlist
    WHILE var
       #ifdef DBG_CODEGEN
       IF var.intreg THEN DEBUGF('   global \s:\d cleared\n', var.hln.name, var.treg)
@@ -346,8 +224,8 @@ PROC clearRegs()  -> for 68k and ppc, at label entry, inline asm, etc-
    ENDWHILE
 
 
-   IF g_currentproc -> changed v50 (1.5.1)
-      var := g_currentproc.varchain
+   IF g.currentproc -> changed v50 (1.5.1)
+      var := g.currentproc.varchain
       WHILE var
          #ifdef DBG_CODEGEN
          IF var.intreg THEN DEBUGF('   local \s:\d cleared\n', var.hln.name, var.treg)
@@ -360,10 +238,10 @@ PROC clearRegs()  -> for 68k and ppc, at label entry, inline asm, etc-
 
 ENDPROC
 
-PROC def_label(lab:PTR TO codelab)
+PROC def_label(lab:PTR TO codelab, g:PTR TO lib_env_heap)
    clearRegs()
-   g_lastx.iid := NIL -> 1.6.0
-   g_lastx.end := NIL
+   g.lastx.iid := NIL -> 1.6.0
+   g.lastx.end := NIL
    lab.offset := currentOffset()
 ENDPROC
 
@@ -442,17 +320,17 @@ ENDPROC cond
 #define inst_notd64(d1) self.dispatcher3(IID_NOTD64,NIL,d1,0,0,0,0,0)
 #define inst_absd64(d1) self.dispatcher3(IID_ABSD64,NIL,d1,0,0,0,0,0)
 
-PROC def_line(l)
+PROC def_line(l, g:PTR TO lib_env_heap)
    IF l <= 0 THEN RETURN
-   IF g_linelist
-      IF g_linelist.line = l THEN RETURN
-      IF g_linelist.offset = (currentOffset()) THEN RETURN
+   IF g.linelist
+      IF g.linelist.line = l THEN RETURN
+      IF g.linelist.offset = (currentOffset()) THEN RETURN
    ENDIF
-   g_linelist := NEW [g_linelist, l, currentOffset()]:linedef
-   IF g_stepdebug AND (g_optpowerpc=CPU_M68)
+   g.linelist := NEW [g_linelist, l, currentOffset()]:linedef
+   IF g.stepdebug AND (g_optpowerpc=CPU_M68)
      nop()
    ENDIF
-   IF g_stepdebug50 AND (g_optpowerpc=CPU_M68)
+   IF g.stepdebug50 AND (g_optpowerpc=CPU_M68)
      nop()
      nop()
      nop()
@@ -552,18 +430,18 @@ PROC doProc(n:PTR TO item) OF codegen
 
    /* auto reg alloc */
    IF proc.handle = FALSE
-      IF g_numregalloc
-         count := collectRegVars(allocregsbuf, proc.args32, count, DREG, IF g_numregalloc < 0 THEN MINALLOCUSAGE ELSE 0)
-         count := collectRegVars(allocregsbuf, proc.locals32, count, DREG, IF g_numregalloc < 0 THEN MINALLOCUSAGE ELSE 0)
+      IF self.numregalloc
+         count := collectRegVars(allocregsbuf, proc.args32, count, DREG, IF self.numregalloc < 0 THEN MINALLOCUSAGE ELSE 0)
+         count := collectRegVars(allocregsbuf, proc.locals32, count, DREG, IF self.numregalloc < 0 THEN MINALLOCUSAGE ELSE 0)
          sortRegAlloc(allocregsbuf, count)
          #ifdef DBG_CODEGEN
          DEBUGF('doproc() "\s" found \d vars suitable for regalloc\n', proc.name, count)
          #endif
       ENDIF
-      IF g_numfregalloc
+      IF self.numfregalloc
          ->IF proc.maxcalldepth = NIL -> no chance of exception happening ?
-            fcount := collectRegVars(allocfregsbuf, proc.args64, fcount, FREG, IF g_numfregalloc < 0 THEN MINALLOCUSAGE ELSE 0)
-            fcount := collectRegVars(allocfregsbuf, proc.locals64, fcount, FREG, IF g_numfregalloc < 0 THEN MINALLOCUSAGE ELSE 0)
+            fcount := collectRegVars(allocfregsbuf, proc.args64, fcount, FREG, IF self.numfregalloc < 0 THEN MINALLOCUSAGE ELSE 0)
+            fcount := collectRegVars(allocfregsbuf, proc.locals64, fcount, FREG, IF self.numfregalloc < 0 THEN MINALLOCUSAGE ELSE 0)
          ->ENDIF
           sortRegAlloc(allocfregsbuf, fcount)
          #ifdef DBG_CODEGEN
@@ -578,9 +456,9 @@ PROC doProc(n:PTR TO item) OF codegen
    ENDIF
 
 
-   IF g_linedebug THEN def_line(g_linenum)
+   IF self.linedebug THEN def_line(g_linenum)
 
-   g_currentproc := proc
+   self.currentproc := proc
 
   #ifdef DBG_CODEGEN
   DEBUGF('doproc() "\s" alloc and init locals\n', proc.name)
@@ -589,13 +467,13 @@ PROC doProc(n:PTR TO item) OF codegen
 
    self.prochead(allocregsbuf, count, allocfregsbuf, fcount) -> v37, v45, 46, 48
 
-   ->IF g_symbolhunk
+   ->IF self.symbolhunk
    ->   IF proc.object
    ->      addMethDbgSym(proc.object.name, proc.name, proc.offset)
    ->   ENDIF
    ->ENDIF
 
-   g_stacksize := g_stacksize + proc.framesize -> v58
+   self.stacksize := self.stacksize + proc.framesize -> v58
 
      -> v50
    self.resetObtainStart()
@@ -615,7 +493,7 @@ PROC doProc(n:PTR TO item) OF codegen
 
     IF CtrlC() THEN reportErr('CtrlC')
 
-    IF g_linedebug THEN def_line(g_linenum)
+    IF self.linedebug THEN def_line(g_linenum)
 
 
     self.endproc1()
@@ -633,7 +511,7 @@ PROC doProc(n:PTR TO item) OF codegen
    t := FALSE
     FOR a := 0 TO REGUSETABSIZE-1
        IF (g_regusetab[a].obtains) OR (g_regusetab[a].write)
-          DEBUGF(' !!! ENDPROC \s regusetab[\d] = \d,\d\n', proc.name, a, g_regusetab[a].obtains, g_regusetab[a].write)
+          DEBUGF(' !!! ENDPROC \s regusetab[\d] = \d,\d\n', proc.name, a, self.regusetab[a].obtains, self.regusetab[a].write)
           t := TRUE
        ENDIF
     ENDFOR
@@ -649,7 +527,7 @@ PROC doProc(n:PTR TO item) OF codegen
     IF proc.framesize > (32*1024) THEN
       reportErr('local stack usage exceeds 32k for procedure', proc.name)
 
-   g_currentproc := NIL
+   self.currentproc := NIL
 
 
 ENDPROC n
@@ -662,7 +540,7 @@ PROC compileCode(n:PTR TO item, oneliner=FALSE) OF codegen
    DEF dh, dl -> v50
 
    #ifdef DBG_CODEGEN
-   DEBUGF('compileCode($\h): line=\d \n', n, g_linenum)
+   DEBUGF('compileCode($\h): line=\d \n', n, self.linenum)
    #endif
 
    IF FreeStack() < 4000 THEN Raise("STCK") -> 2.0
@@ -675,8 +553,8 @@ PROC compileCode(n:PTR TO item, oneliner=FALSE) OF codegen
          self.compileCode(n.info)
          n++
       CASE 10
-         g_linenum := n.info
-         IF g_linedebug THEN def_line(g_linenum)
+         self.linenum := n.info
+         IF self.linedebug THEN def_line(g_linenum)
          n++
          IF oneliner THEN RETURN n--, n.data
       CASE IT_PROC
@@ -734,11 +612,11 @@ PROC compileCode(n:PTR TO item, oneliner=FALSE) OF codegen
             CASE IT_VALUE
                IF n.num THEN reportErr('illegal value for CHAR/BYTE')
                PutChar(g_codeptr, n.info)
-               g_codeptr := g_codeptr + 1
+               self.codeptr := self.codeptr + 1
             CASE IT_STRING
                t := n.info
                a := EstrLen(t) + 1
-               WHILE a-- DO PutChar(g_codeptr, t[]++) BUT g_codeptr := g_codeptr + 1
+               WHILE a-- DO PutChar(g_codeptr, t[]++) BUT self.codeptr := self.codeptr + 1
             ENDSELECT
             n++
          ENDWHILE
@@ -750,7 +628,7 @@ PROC compileCode(n:PTR TO item, oneliner=FALSE) OF codegen
          WHILE n.data = IT_VALUE
             IF n.num THEN reportErr('illegal value for INT/WORD')
             PutInt(g_codeptr, n.info)
-            g_codeptr := g_codeptr + 2
+            self.codeptr := self.codeptr + 2
             n++
          ENDWHILE
          IF n.data <> 10 THEN reportErr('integer value expected')
@@ -792,7 +670,7 @@ PROC compileCode(n:PTR TO item, oneliner=FALSE) OF codegen
             dh, dl := singToDoub(n.info)
             PutLong(g_codeptr, dh)
             PutLong(g_codeptr + 4, dl)
-            g_codeptr := g_codeptr + 8
+            self.codeptr := self.codeptr + 8
             n++
          ENDWHILE
          IF n.data <> 10 THEN reportErr('float value expected')
@@ -803,7 +681,7 @@ PROC compileCode(n:PTR TO item, oneliner=FALSE) OF codegen
          WHILE n.data = IT_VALUE
             PutLong(g_codeptr + 4, n.info)
             PutLong(g_codeptr, IF n.info AND $80000000 THEN $FFFFFFFF ELSE NIL)
-            g_codeptr := g_codeptr + 8
+            self.codeptr := self.codeptr + 8
             n++
          ENDWHILE
          IF n.data <> 10 THEN reportErr('constant value expected')
@@ -860,8 +738,8 @@ PROC makeStaticString(n:PTR TO item)
    putAlign(4)
    ofs := currentOffset()
    ->WHILE TRUE
-      CopyMem(n.info, g_codeptr, t := EstrLen(n.info))
-      g_codeptr := g_codeptr + t
+      CopyMem(n.info, self.codeptr, t := EstrLen(n.info))
+      self.codeptr := self.codeptr + t
       n++
    ->   EXIT n.data <> "+"
    ->   n++
@@ -870,7 +748,7 @@ PROC makeStaticString(n:PTR TO item)
    putAlign(4)
 ENDPROC n, ofs
 
-PROC makeStaticList(n:PTR TO item)
+PROC makeStaticList(n:PTR TO item, g:PTR TO lib_env_heap)
    ->DEF flags, esize, len, object:PTR TO object
    ->DEF start, size
    DEF offset, ptr:PTR TO LONG
@@ -896,7 +774,7 @@ PROC makeStaticList(n:PTR TO item)
    ENDIF
    -> label of data at this offset
    offset := currentOffset()
-   ptr := g_codeptr
+   ptr := g.codeptr
 
    -> compute size needed
    ->size := IF object = NIL THEN Mul(esize, len) ELSE (object.sizeof *
@@ -905,7 +783,7 @@ PROC makeStaticList(n:PTR TO item)
    ->                                        IF Mod(len, object.nrofmembers) THEN 1 ELSE 0))
 
    -> alloc space
-   g_codeptr := g_codeptr + sl.sizeof
+   g.codeptr := g.codeptr + sl.sizeof
 
    n := evalStaticList(n, ptr, offset)
 
@@ -1206,8 +1084,8 @@ PROC doIncbin(n:PTR TO item) OF codegen HANDLE
    name := n.info -> set in syntax
    fh := Open(name, OLDFILE)
    IF fh = NIL THEN Throw("OPEN", name) -> should not happen as we have checked it in pass1
-   IF Read(fh, g_codeptr, flen) <> flen THEN Throw("READ", name)
-   g_codeptr := g_codeptr + (flen + 3 AND $FFFFFC)
+   IF Read(fh, self.codeptr, flen) <> flen THEN Throw("READ", name)
+   self.codeptr := self.codeptr + (flen + 3 AND $FFFFFC)
    n++
 
 EXCEPT DO
@@ -1242,8 +1120,8 @@ PROC doSingleExp(n:PTR TO item, ha:PTR TO hintargs) OF codegen
       d := n.info
       n++
    CASE IT_REG
-      o := n.info::reg.type
-      d := n.info::reg.num
+      o := n.info::reself.type
+      d := n.info::reself.num
       n++
    CASE IT_VARADR     ; n, o, d := self.doVarAdr(n, ha)
    CASE IT_LABADR     ; n, o, d := self.doLabAdr(n, ha)
@@ -1369,8 +1247,8 @@ PROC doExpression(n:PTR TO item, ha=NIL:PTR TO hintargs) OF codegen
 
    -> 1.8.0
    IF n.data = 10
-      g_linenum := n.info
-      IF g_linedebug THEN def_line(g_linenum)
+      self.linenum := n.info
+      IF self.linedebug THEN def_line(g_linenum)
       n++
    ENDIF
 
@@ -1529,11 +1407,11 @@ ENDPROC n, NIL
 
 
 -> v43: soooo optimised.
--> v40: now writes directly to g_databuf !!
+-> v40: now writes directly to self.databuf !!
 -> v50: :DOUBLE
 -> V50: makes use of the OBJECT litem
 -> v56: WIDE
--> v57: now respects g_safeimmlists
+-> v57: now respects self.safeimmlists
 PROC doList(buf:PTR TO item, ha:PTR TO hintargs) OF codegen
    DEF n:PTR TO litem
    DEF len, size, as, as2
@@ -1652,8 +1530,8 @@ PROC doList(buf:PTR TO item, ha:PTR TO hintargs) OF codegen
 
       rwdofs := it_immedlist.offset
       inst_getrwd(rwdofs, arx)
-      ptr := g_databuf + rwdofs
-      IF rwdofs + rwsize > g_databufsize THEN reportIErr('DBUF overflow!')
+      ptr := self.databuf + rwdofs
+      IF rwdofs + rwsize > self.databufsize THEN reportIErr('DBUF overflow!')
 
       SELECT esize
       CASE 0 -> object
@@ -2237,8 +2115,8 @@ PROC doSelectOf(buf) OF codegen
             reportErr('CASE syntax')
          ENDIF
       UNTIL exit
-      g_linenum := n.info
-      IF g_linedebug THEN def_line(g_linenum)
+      self.linenum := n.info
+      IF self.linedebug THEN def_line(g_linenum)
       n++ -> skip 10
       putAlign(4)
       def_label(code)
@@ -2442,14 +2320,14 @@ PROC doMAssign(n:PTR TO item) OF codegen
    n++ -> skip KW_ASSIGN
    n, o, d := self.doExpression(n)
 
-   IF g_multireturn = NIL THEN reportErr('multiple assign error')
+   IF self.multireturn = NIL THEN reportErr('multiple assign error')
 
    #ifdef DBG_CODEGEN
    DEBUGF('domassign: multireturn= [\d,\d] [\d,\d] [\d,\d] [\d,\d]\n',
-   g_multireturn.ros[0],g_multireturn.rds[0],
-   g_multireturn.ros[1],g_multireturn.rds[1],
-   g_multireturn.ros[2],g_multireturn.rds[2],
-   g_multireturn.ros[3],g_multireturn.rds[3])
+   self.multireturn.ros[0],g_multireturn.rds[0],
+   self.multireturn.ros[1],g_multireturn.rds[1],
+   self.multireturn.ros[2],g_multireturn.rds[2],
+   self.multireturn.ros[3],g_multireturn.rds[3])
    #endif
 
    inst_copy(o,d, var.o, var.d)
@@ -2822,10 +2700,10 @@ PROC dvs_member(type:PTR TO member, sarx, sofs, buf:PTR TO item, arx,
    ENDIF
 
    -> nilcheck ?
-   IF g_nilcheck<>NIL
+   IF self.nilcheck<>NIL
       IF sofs = 0
          IF da.pk=NIL
-            self.nilCheck(sarx, g_linenum)
+            self.nilCheck(sarx, self.linenum)
          ENDIF
       ENDIF
    ENDIF
@@ -3275,7 +3153,7 @@ PROC dvs_index(n:PTR TO item, type:PTR TO member, sarx, as,as2,da:PTR TO derefar
    type.object,sarx,as,as2,da.pk,da.eo,da.ed)
    #endif
 
-   IF g_nilcheck
+   IF self.nilcheck
       IF da.pk = NIL THEN self.nilCheck(sarx,g_linenum)
    ENDIF
 

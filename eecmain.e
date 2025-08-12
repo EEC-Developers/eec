@@ -105,7 +105,7 @@ MODULE '*assembler' -> 1.10.0 (v55)
 MODULE '*inline68'    -> 1.10.0 (v55)
 MODULE '*inlineppc'    -> 1.10.0 (v55)
 MODULE '*ppcgen'    -> 1.10.0 (v55)
-MODULE '*020gen'    -> 1.10.0 (v55)
+MODULE '*m68kgen'    -> 2.4 Sam
 MODULE '*ecmodtrans' -> 1.10.0 (v55)
 MODULE '*libstubs' -> 2.2 v57
 

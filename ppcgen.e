@@ -1,8 +1,9 @@
 
--> ECX/ppcgen.e
+-> EEC/ppcgen.e
 
+/* EEC by Samuel Crow et al. [samuraileumas yahoo com] is Copyright (c)2025 */
 /* ECX by Leif Salomonsson [ecx tele2 se] is Copyright (c) 2002-2008 */
-/* Released under the ECX COMPILER LICENSE, See ECXCOMPILERLICENSE.TXT */
+/* Released under the ECX COMPILER LICENSE, See CompilerLicense.md */
 
 OPT MODULE
 OPT PREPROCESS
@@ -12,6 +13,7 @@ OPT LARGE
 
 ->#define DBG_PPCGEN
 
+MODULE '*libcodegen_headers'
 MODULE '*codegen'
 MODULE '*compiler'
 MODULE '*support'
@@ -36,7 +38,7 @@ MODULE 'exec/lists'
 #define USEMULDIVSHIFT
 
 
-EXPORT DEF g_codeptr:PTR TO LONG,
+/*EXPORT DEF g_codeptr:PTR TO LONG,
 	        g_codebuf,
 	        g_currentproc:PTR TO proc,
 	        g_rwreflist:PTR TO rwref,
@@ -86,7 +88,7 @@ EXPORT DEF
 
 EXPORT DEF g_sizeofptr
 EXPORT DEF g_multireturn:PTR TO multireturn
-
+*/
 EXPORT OBJECT ppc OF codegen
 	lasttempREG
 	lasttempFREG
@@ -5160,8 +5162,4 @@ PROC doMethod(n:PTR TO item, as, as2, postkey, type:PTR TO member) OF ppc
 	DEBUGF('dvs_method done\n')
 	#endif
 
-
-
 ENDPROC n, ro, rd
-
-

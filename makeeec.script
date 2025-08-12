@@ -50,7 +50,7 @@ $ec inline68.e
 $ec inlineppc.e
 $ec codegen.e
 $ec ppcgen.e
-$ec 020gen.e
+$ec m68kgen.e
 $ec ecmodtrans.e
 echo building main
 if $target EQ EC

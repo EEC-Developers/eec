@@ -1,10 +1,9 @@
 
--> EEC/020gen.e
-/* formerly ECX/m68gen.e */
+-> EEC/m68kgen.e
 
-/* EEC by Samuel D. Crow [samuraileumas yahoo com] is Copyright (c) 2019 */
+/* EEC by Samuel D. Crow [samurailuemas yahoo com] is Copyright (c) 2019-2025 */
 /* ECX by Leif Salomonsson [ecx tele2 se] is Copyright (c) 2002-2008 */
-/* Released under the ECX COMPILER LICENSE, See ECXCOMPILERLICENSE.TXT */
+/* Released under the ECX COMPILER LICENSE, See CompilerLicense.md */
 
 -> File created May 2008, extracted from codegen.e.
 
@@ -15,6 +14,7 @@ OPT LARGE
 
 ->#define DBG_M68GEN
 
+MODULE '*libcodegen_headers'
 MODULE '*codegen'
 MODULE '*compiler'
 MODULE '*assembler'
@@ -36,7 +36,9 @@ EXPORT OBJECT m68amiga OF codegen
    lasttempFREG
 ENDOBJECT
 
-EXPORT DEF g_codeptr:PTR TO LONG,
+-> these below should be in the superclass
+
+/*EXPORT DEF g_codeptr:PTR TO LONG,
            g_codebuf,
            g_currentproc:PTR TO proc,
            g_rwreflist:PTR TO rwref,
@@ -82,11 +84,11 @@ EXPORT DEF
 EXPORT DEF g_multireturn:PTR TO multireturn
 
 EXPORT DEF g_modulelist:PTR TO mlh, link_globaldatasize -> for .putInit()
-
+*/
 PROC init() OF m68amiga
 
    #ifdef DBG_M68GEN
-   DEBUGF('m8amiga.init()\n')
+   DEBUGF('m68amiga.init()\n')
    #endif
 
    DREG := DRX
