@@ -15,7 +15,11 @@ EXPORT ENUM FCF,FCEQ,FCOGT,FCOGE,FCOLT,FCOLE,FCOGL,
             FCGL,FCGLE,FCNGLE,FCNGL,FCNLE,FCNLT,FCNGE,FCNGT
 
 EXPORT ENUM ADDRERR,NOP,DXDX,DXAX,DXAXP,DXAXPI,DXAXPD,DXAXPOFS,
-  DXAXPX,AXDX,AXAX,IMMAX,IMMQAX,LEAAXPAX,ABSWAX,XDXDX,XAXPDAXPD
+  DXAXPX,AXDX,AXAX,IMMAX,IMMQAX,LEAAXPAX,ABSWAX,XDXDX,
+  XAXPDAXPD,AXPDX,AXPAX,AXPIDX,AXPDDX,AXPOFSDX,AXPOFSAX,AXPXDX,
+  IMMDX,IMMQDX
+
+EXPORT ENUM ADDOP=%1101,SUBOP=%1001,ADDQOP=%0101
 
 -> Abstract base class
 OBJECT m68k
@@ -298,6 +302,174 @@ PROC getLength() OF immax IS self.len
 -> bounce psuedo op to the next level
 PROC output(buf) OF immax IS SUPER.output(buf)
 
+OBJECT axpdx OF m68k
+  axp:CHAR,
+  dx:CHAR
+ENDOBJECT
+
+PROC getLength() OF axpdx IS 2
+
+-> constructor
+PROC make(s,axp,dx) OF axpdx
+  self.size := s
+  self.me := AXPDX
+  self.mode :=M2
+  self.axp := axp
+  self.dx := dx
+ENDPROC
+
+PROC output() OF axpdx
+  SUPER(Shl(axp,9) OR Shl(self.size,6) OR self.dx)
+ENDPROC
+
+OBJECT axpax OF m68k
+  axp:CHAR,
+  ax:CHAR
+ENDOBJECT
+
+PROC getLength() OF axpax IS 2
+
+-> constructor
+PROC make(s,axp,ax) OF axpax
+  self.size := s
+  self.me := AXPAX
+  self.mode := M2
+  self.axp := axp
+  self.ax := ax
+ENDPROC
+
+PROC output() of axpax
+  SUPER output(Shl(self.axp,9) OR Shl(axSize(self.size),6) OR ax)
+ENDPROC
+
+OBJECT axpddx OF m68k
+  ax:CHAR,
+  dx:CHAR,
+ENDOBJECT
+
+PROC getLength() OF axpddx IS 2
+
+-> constructor
+PROC make(s,ax,dx) OF axpddx
+  self.size := s
+  self.me := AXPDDX
+  self.mode := M4
+  self.ax := ax
+  self.dx := dx
+ENDPROC
+
+PROC output() OF axpddx
+  SUPER output(Shl(self.ax,9) OR Shl(self.size,6) OR self.dx)
+ENDPROC
+
+OBJECT axpofsdx OF m68k
+  ax:CHAR,
+  dx:CHAR,
+  idrx:CHAR,
+  scale:CHAR,
+  d:INT
+ENDOBJECT
+
+PROC getLength() OF axpofsdx IS 4
+
+-> constructor
+PROC make(s,ax,dx,idrx,scale,d) OF axpofsdx
+  self.size := s
+  self.me := AXPOFSDX
+  self.mode := M2
+  self.ax := ax
+  self.dx := dx
+  self.idrx := idrx
+  self.scale := scale
+  self.d := d
+ENDPROC
+
+PROC output() OF axpofsdx
+  self.codeptr[1] := IxExt(self.idrx,self.scale,self.d)
+  SUPER output(Shl(self.ax,9) OR Shl(self.size,6) self.dx)
+ENDPROC
+
+OBJECT axpofsax OF m68k
+  axp:CHAR,
+  ax:CHAR,
+  idrx:CHAR,
+  scale:char,
+  d:INT
+ENDOBJECT
+
+PROC getLength() OF axpofsax IS 4
+
+-> constructor
+PROC make(s,axp,ax,idrx,scale,d) OF axpofsax
+  self.size := s
+  self.me := AXPOFSAX
+  self.mode := M5
+  self.axp := axp
+  self.ax := ax
+  self.idrx := idrx
+  self.scale := scale
+  self.d := d
+ENDPROC
+
+PROC output() OF axpofsax
+  self.codeptr[1] := IxExt(self.idrx,self.scale,self.d)
+  SUPER output(Shl(self.axp,9) OR Shl(axSize(self.size),6) OR self.ax)
+ENDPROC
+
+OBJECT axpxdx OF m68k
+  ax:CHAR,
+  dx:CHAR,
+  idrx:CHAR,
+  scale:CHAR,
+  d:INT
+ENDOBJECT
+
+PROC getLength() OF axpxdx IS 4
+
+-> constructor
+PROC make(s,axp,idrx,scale,d,dx) OF axpxdx
+  self.size := s
+  self.me := AXPXDX
+  self.mode := M6
+  self.axp := axp
+  self.idrx := idrx
+  self.scale := scale
+  self.d := d
+  self.dx := dx
+ENDPROC
+
+PROC output() OF axpxdx
+  self.codeptr[1] := IxExt(self.idrx,self.scale,self.d)
+  SUPER output(Shl(self.axp,9) OR Shl(self.size,6) OR self.dx)
+ENDPROC
+
+OBJECT axpxax OF m68k
+  axp:CHAR,
+  ax:CHAR,
+  idrx:CHAR,
+  scale:CHAR,
+  d:INT
+ENDOBJECT
+
+PROC getLength() OF axpxax IS 4
+
+-> constructor
+PROC make(s,axp,idrx,scale,d,ax) OF axpxax
+  self.size := s
+  self.me := AXPXAX
+  self.mode := M6
+  self.axp := axp
+  self.idrx := idrx
+  self.scale := scale
+  self.d := d
+  self.ax := ax
+ENDPROC
+
+PROC output() OF axpxax
+  self.codeptr[1] := IxExt(self.idrx,self.scale,self.d)
+  SUPER output(Shl(self.axp,9) OR Shl(axSize(self.size),6) OR self.dx)
+ENDPROC
+
 OBJECT xdxdx OF m68k
   dx1:CHAR,
   dx2:CHAR
@@ -338,3 +510,95 @@ PROC output() OF xaxpdaxpd
   SUPER output(Shl(self.dx2,9) OR Shl(self.size OR 4,6) OR self.dx1)
 ENDPROC
 
+-> NOTE: Treat 0 as a special case. It is not handled here.
+OBJECT immdx OF m68k
+  imm,
+  dx:CHAR,
+  len:CHAR
+ENDOBJECT
+
+PROC getLength() OF immdx IS self.len
+
+-> constructor
+PROC make(s,imm,dx) OF immdx
+  self.size := s
+  self.mode := M0
+  self.imm := imm
+  self.dx := dx
+  IF imm < 9 AND imm > 0
+    self.len := 2
+    self.me := IMMQDX
+  ELSE
+    self.me := IMMDX
+    IF s=CASE SIZE_L
+        self.len := 6
+    ELSE
+        self.len := 4
+    ENDIF
+  ENDIF
+ENDPROC
+
+PROC output() OF immdx
+  IF self.me = IMMDX
+    IF self.size = SIZE_L
+      PutLong(self.codeptr[1],self.imm)
+    ELSE
+      self.codeptr[1] := self.imm
+    ENDIF
+    SUPER output(Shl(self.size,6) OR self.dx)
+  ELSE
+    -> immqdx
+    SUPER output(Shl(%11000 OR self.size,6) OR self.dx)
+  ENDIF
+ENDPROC
+      
+
+/**********************************
+*********** 68k Opcodes ***********
+**********************************/
+
+#define MAKEOP(OP,AM,ENC,SIG) OBJECT OP##AM##op OF AM \
+ENDOBJECT \
+\
+PROC make(SIG) OF OP##AM##op \
+  self.op := ENC \
+  SUPER make(SIG) \
+ENDPROC
+
+-> add
+MAKEOP(add,dxdx,ADDOP,s\,dx1\,dx2)
+MAKEOP(add,dxax,ADDOP,s\,dx\,ax)
+MAKEOP(add,dxaxp,ADDOP,s\,dx\,ax)
+MAKEOP(add,dxaxpi,ADDOP,s\,dx\,ax)
+MAKEOP(add,dxaxpd,ADDOP,s\,dx\,ax)
+MAKEOP(add,dxaxpofs,ADDOP,s\,dx\,ax\,ofs)
+MAKEOP(add,dxaxpx,ADDOP,s\,dx\,ax\,idrx\,scale\,d)
+MAKEOP(add,axdx,ADDOP,s\,ax\,dx)
+MAKEOP(add,axax,ADDOP,s\,ax1\,ax2)
+MAKEOP(add,immax,ADDOP,s\,imm\,ax)
+MAKEOP(add,axpdx,ADDOP,s\,axp\,dx)
+MAKEOP(add,axpax,ADDOP,s\,axp\,ax)
+MAKEOP(add,axpofsdx,ADDOP,s\,ax\,dx\,idrx\,scale\,d)
+MAKEOP(add,axpofsax,ADDOP,s\,axp\,ax\,idrx\,scale\,d)
+MAKEOP(add,axpxdx,ADDOP,s\,axp\,idrx\,scale\,d\,dx)
+MAKEOP(add,xdxdx,ADDOP,s\,dx1\,dx2)
+MAKEOP(add,xaxpdaxpd,ADDOP,s\,ax1\,ax2)
+
+-> sub
+MAKEOP(sub,dxdx,SUBOP,s\,dx1\,dx2)
+MAKEOP(sub,dxax,SUBOP,s\,dx\,ax)
+MAKEOP(sub,dxaxp,SUBOP,s\,dx\,ax)
+MAKEOP(sub,dxaxpi,SUBOP,s\,dx\,ax)
+MAKEOP(sub,dxaxpd,SUBOP,s\,dx\,ax)
+MAKEOP(sub,dxaxpofs,SUBOP,s\,dx\,ax\,ofs)
+MAKEOP(sub,dxaxpx,SUBOP,s\,dx\,ax\,idrx\,scale\,d)
+MAKEOP(sub,axdx,SUBOP,s\,ax\,dx)
+MAKEOP(sub,axax,SUBOP,s\,ax1\,ax2)
+MAKEOP(sub,immax,SUBOP,s\,imm\,ax)
+MAKEOP(sub,axpdx,SUBOP,s\,axp\,dx)
+MAKEOP(sub,axpax,SUBOP,s\,axp\,ax)
+MAKEOP(sub,axpofsdx,SUBOP,s\,ax\,dx\,idrx\,scale\,d)
+MAKEOP(sub,axpofsax,SUBOP,s\,axp\,ax\,idrx\,scale\,d)
+MAKEOP(sub,axpxdx,SUBOP,s\,axp\,idrx\,scale\,d\,dx)
+MAKEOP(sub,xdxdx,SUBOP,s\,dx1\,dx2)
+MAKEOP(sub,xaxpdaxpd,SUBOP,s\,ax1\,ax2)
