@@ -14,12 +14,12 @@ EXPORT ENUM FCF,FCEQ,FCOGT,FCOGE,FCOLT,FCOLE,FCOGL,
             FCNE,FCT,FCSF,FCSEQ,FCGT,FCGE,FCLT,FCLE,
             FCGL,FCGLE,FCNGLE,FCNGL,FCNLE,FCNLT,FCNGE,FCNGT
 
-EXPORT ENUM DXDX,DXAX,DXAXP,DXAXPI,DXAXPD,DXAXPOFS,DXAXPX,
-  AXDX,AXAX,IMMAX
+EXPORT ENUM ADDRERR,NOP,DXDX,DXAX,DXAXP,DXAXPI,DXAXPD,DXAXPOFS,
+  DXAXPX,AXDX,AXAX,IMMAX,IMMQAX,LEAAXPAX,ABSWAX,XDXDX,XAXPDAXPD
 
 -> Abstract base class
 OBJECT m68k
-  codeptr:PTR TO WORD,
+  codeptr:PTR TO WORD, -> NOTE: Unsigned 16-bit members
   me:CHAR, -> Enumerated addressing mode identifier
   size:CHAR, -> operand size in number of bytes
   op:CHAR, -> base operand is 4 bits but allow for psuedo ops
@@ -155,7 +155,7 @@ ENDPROC
 OBJECT dxaxpofs OF m68k
   dx:CHAR,
   ax:CHAR,
-  ofs:WORD
+  ofs:INT
 ENDOBJECT
 
 PROC getLength() OF dxaxpofs IS 4
@@ -180,11 +180,12 @@ OBJECT dxaxpx OF m68k
   ax:CHAR,
   idrx:CHAR,
   scale:CHAR,
-  d:WORD
+  d:INT
 ENDOBJECT
 
 PROC getLength() OF dxaxpx IS 4
 
+-> constructor
 PROC make(s,dx,ax,idrx,scale,d) OF dxaxpx
   self.size := s
   self.me := DXAXPX
@@ -208,6 +209,7 @@ ENDOBJECT
 
 PROC getLength() OF axdx IS 2
 
+-> constructor
 PROC make(s,ax,dx) OF axdx
   self.size := s
   self.mode := M1
@@ -226,6 +228,7 @@ ENDOBJECT
 
 PROC getLength() OF axax IS 2
 
+-> constructor
 PROC make(s,ax1,ax2) OF axax
   self.size := s
   self.mode := M1
@@ -243,37 +246,95 @@ OBJECT immax OF m68k
   len:CHAR
 ENDOBJECT
 
+-> constructor
 PROC make(s,imm,ax) OF immax
-  self.me := IMMAX
   self.ax := ax
   self.imm := imm
   IF s = SIZE_L
+    self.size := SIZE_L
     SELECT imm
       CASE 0
-        self.len := 2
-        -> SUBA ax,ax
+        -> NOP for add
+        -> SUBA ax,ax for load
+        self.me := ADDRERR
       CASE 1 TO 8
         self.len := 2
-        -> MOVEQ.L #imm,ax
+        -> ADDQ.L #imm,ax for add
+        -> MOVEQ.L #imm,ax for load
+        self.me := IMMQAX
       CASE 9 TO 32767
         self.len := 4
-        -> LEA (#imm,ax),ax
+        -> LEA (#imm,ax),ax for add
+        -> MOVEA.L #imm.W,ax for load
+        self.me := ABSWAX
       CASE -32768 TO -1
         SELF.len := 4
-        -> LEA (#imm,ax),ax
+        -> LEA (#imm,ax),ax for add
+        -> MOVEA.L #imm.W,ax for load
+        self.me := ABSWAX
       DEFAULT
         self.len := 6
-        -> MOVEA.L #imm,ax
+        -> ADDA.L #imm,ax for add
+        -> MOVEA.L #imm,ax for load
+        self.me := IMMAX
     ENDSELECT
   ELSE
+    self.size := SIZE_W
     IF (imm>0) AND (imm<9)
       self.len := 2
       -> MOVEQ.W #imm,ax
+      self.me := IMMQAX
     ELSE
       self.len := 4
-      -> MOVEA.W #imm,ax
+      -> LEA (#imm,ax),ax for add
+      -> MOVEA.W #imm,ax for load
+      self.me := ABSWAX
     ENDIF
   ENDIF
 ENDPROC
 
 PROC getLength() OF immax IS self.len
+
+-> bounce psuedo op to the next level
+PROC output(buf) OF immax IS SUPER.output(buf)
+
+OBJECT xdxdx OF m68k
+  dx1:CHAR,
+  dx2:CHAR
+ENDOBJECT
+
+PROC getLength() OF xdxdx IS 2
+
+-> constructor
+PROC make(s,dx1,dx2) OF xdxdx
+  self.size := s
+  self.me := XDXDX
+  self.mode := M0
+  self.dx1 := dx1
+  self.dx2 := dx2
+ENDPROC
+
+PROC output() OF xdxdx
+  SUPER output(Shl(self.dx2,9) OR Shl(self.size OR 4,6) OR self.dx1)
+ENDPROC
+
+OBJECT xaxpdaxpd OF m68k
+  ax1:CHAR,
+  ax2:CHAR
+ENDOBJECT
+
+PROC getLength() OF xaxpdaxpd IS 2
+
+-> constructor
+PROC make(s,ax1,ax2) OF xaxpdaxpd
+  self.size := s
+  self.me := XAXPDAXPD
+  self.mode := M1
+  self.ax1 := ax1
+  self.ax2 := ax2
+ENDPROC
+
+PROC output() OF xaxpdaxpd
+  SUPER output(Shl(self.dx2,9) OR Shl(self.size OR 4,6) OR self.dx1)
+ENDPROC
+
