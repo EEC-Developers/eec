@@ -4,6 +4,10 @@
 /* ECX by Leif Salomonsson [ecx tele2 se] is Copyright (c) 2002-2008 */
 /* Released under the ECX COMPILER LICENSE, See ECXCOMPILERLICENSE.TXT */
 
+OPT MODULE
+OPT PREPROCESS
+OPT LARGE
+
 EXPORT ENUM M0,M1,M2,M3,M4,M5,M6,M7
 EXPORT ENUM SIZE_B,SIZE_W,SIZE_L   -> was B,W,L
 EXPORT ENUM T,F,HI,LS,CC,CS,NE,EQ,VC,VS,PL,MI,GE,LT,GT,LE
@@ -19,7 +23,7 @@ EXPORT ENUM ADDRERR,NOP,DXDX,DXAX,DXAXP,DXAXPI,DXAXPD,DXAXPOFS,
   XAXPDAXPD,AXPDX,AXPAX,AXPIDX,AXPDDX,AXPOFSDX,AXPOFSAX,AXPXDX,
   IMMDX,IMMQDX
 
-EXPORT ENUM ADDOP=%1101,SUBOP=%1001,ADDQOP=%0101
+EXPORT ENUM ADDOP=%1101,SUBOP=%1001,ADDQOP=%0101,ADDIMMOP=%0000
 
 -> Abstract base class
 OBJECT m68k
@@ -551,7 +555,10 @@ PROC output() OF immdx
     SUPER output(Shl(%11000 OR self.size,6) OR self.dx)
   ENDIF
 ENDPROC
-      
+
+-> placeholder for inline assembly
+OBJECT immqdx OF immdx
+ENDOBJECT
 
 /**********************************
 *********** 68k Opcodes ***********
@@ -563,6 +570,13 @@ ENDOBJECT \
 PROC make(SIG) OF OP##AM##op \
   self.op := ENC \
   SUPER make(SIG) \
+ENDPROC \
+\
+EXPORT PROC OP##AM(SIG) \
+  DEF t:PTR TO OP##AM##op \
+  NEW t.make(SIG) \
+  t.output() \
+  END t \
 ENDPROC
 
 -> add
@@ -575,12 +589,13 @@ MAKEOP(add,dxaxpofs,ADDOP,s\,dx\,ax\,ofs)
 MAKEOP(add,dxaxpx,ADDOP,s\,dx\,ax\,idrx\,scale\,d)
 MAKEOP(add,axdx,ADDOP,s\,ax\,dx)
 MAKEOP(add,axax,ADDOP,s\,ax1\,ax2)
-MAKEOP(add,immax,ADDOP,s\,imm\,ax)
 MAKEOP(add,axpdx,ADDOP,s\,axp\,dx)
 MAKEOP(add,axpax,ADDOP,s\,axp\,ax)
 MAKEOP(add,axpofsdx,ADDOP,s\,ax\,dx\,idrx\,scale\,d)
 MAKEOP(add,axpofsax,ADDOP,s\,axp\,ax\,idrx\,scale\,d)
 MAKEOP(add,axpxdx,ADDOP,s\,axp\,idrx\,scale\,d\,dx)
+
+-> addx
 MAKEOP(add,xdxdx,ADDOP,s\,dx1\,dx2)
 MAKEOP(add,xaxpdaxpd,ADDOP,s\,ax1\,ax2)
 
@@ -594,11 +609,12 @@ MAKEOP(sub,dxaxpofs,SUBOP,s\,dx\,ax\,ofs)
 MAKEOP(sub,dxaxpx,SUBOP,s\,dx\,ax\,idrx\,scale\,d)
 MAKEOP(sub,axdx,SUBOP,s\,ax\,dx)
 MAKEOP(sub,axax,SUBOP,s\,ax1\,ax2)
-MAKEOP(sub,immax,SUBOP,s\,imm\,ax)
 MAKEOP(sub,axpdx,SUBOP,s\,axp\,dx)
 MAKEOP(sub,axpax,SUBOP,s\,axp\,ax)
 MAKEOP(sub,axpofsdx,SUBOP,s\,ax\,dx\,idrx\,scale\,d)
 MAKEOP(sub,axpofsax,SUBOP,s\,axp\,ax\,idrx\,scale\,d)
 MAKEOP(sub,axpxdx,SUBOP,s\,axp\,idrx\,scale\,d\,dx)
+
+-> subx
 MAKEOP(sub,xdxdx,SUBOP,s\,dx1\,dx2)
 MAKEOP(sub,xaxpdaxpd,SUBOP,s\,ax1\,ax2)
